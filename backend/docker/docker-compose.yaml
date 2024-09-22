@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+    library:
+        image: mysql:8.0
+        hostname: root
+        cap_add:
+            - SYS_NICE
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: abc123!
+            MYSQL_DATABASE: library
+            MYSQL_PASSWORD: abc123!
+        ports:
+            - "3307:3306"
