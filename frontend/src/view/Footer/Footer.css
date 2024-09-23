@@ -1,0 +1,32 @@
+.footer-container {
+    background-color: #1a202c;
+}
+
+.footer-text {
+    margin: 0;
+}
+
+.footer-link {
+    text-decoration: none;
+    color: #00cec9;
+    transition: color 0.3s;
+}
+
+.footer-link:hover {
+    color: #0984e3;
+}
+
+.footer-nav-link {
+    color: #ffffff;
+    transition: color 0.3s;
+}
+
+.footer-nav-link:hover {
+    color: #00cec9;
+}
+
+@media (max-width: 768px) {
+    .footer-nav-link {
+        text-align: center;
+    }
+}

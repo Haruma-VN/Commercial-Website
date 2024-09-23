@@ -1,8 +1,8 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
-import { Footer } from "./view/Footer/Footer";
+import Footer from "./view/Footer/Footer";
 import HomePage from "./view/Home/HomePage";
-import { Navbar } from "./view/Navbar/Navbar";
+import Navbar from "./view/Navbar/Navbar";
 import SearchBookPage from "./view/Search/SearchBookPage";
 import BookCheckoutPage from "./view/Checkout/BookCheckoutPage";
 import LoginPage from "./view/Authentication/LoginPage";

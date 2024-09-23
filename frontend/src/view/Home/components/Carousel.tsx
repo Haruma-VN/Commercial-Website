@@ -6,12 +6,10 @@ import Exception from "../../Exception/Exception";
 import { Link } from "react-router-dom";
 
 const Carousel = () => {
-    // Books waiting for fetch
-    const [books, setBook] = useState<Array<Book>>([]);
-    // loading state : maybe on fetching time
-    const [isLoading, setLoading] = useState<boolean>(true);
-    // exception handling : if an exception is found
-    const [httpError, setError] = useState<string | null>(null);
+    const [books, setBooks] = useState<Array<Book>>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [httpError, setHttpError] = useState<string | null>(null);
+
     useEffect(() => {
         const fetchBooks = async () => {
             const bookUrl: string = "http://localhost:3308/api/v1/book";
@@ -26,74 +24,66 @@ const Carousel = () => {
                 // Kindly throw an error message
                 throw new Error("Có lỗi xảy ra trong quá trình xử lý gửi request đến server");
             }
-            setBook((await response.json()) as Array<Book>);
+            setBooks((await response.json()) as Array<Book>);
         };
         fetchBooks()
-            .catch((e) => {
-                setError(e.message!);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+            .catch((e) => setHttpError(e.message!))
+            .finally(() => setIsLoading(false));
     }, []);
-
-    // The state is still handling
 
     if (isLoading) {
         return <Spinner />;
     }
 
-    // error occur
-
-    if (httpError !== null) {
+    if (httpError) {
         return <Exception message={httpError} />;
     }
 
     return (
-        <div className="container mt-5" style={{ height: 550 }}>
-            <div className="homepage-carousel-title">
-                <h3>Tìm quyển sách bạn yêu thích</h3>
+        <div className="container mt-5">
+            <div className="text-center mb-4">
+                <h3 className="homepage-carousel-title">Tìm quyển sách bạn yêu thích</h3>
             </div>
-            <div id="carouselExampleControls" className="carousel carousel-dark slide mt-5 d-none d-lg-block" data-bs-interval="false">
+            <div id="carouselExampleControls" className="carousel slide carousel-fade d-none d-lg-block" data-bs-interval="false">
                 <div className="carousel-inner">
                     <div className="carousel-item active">
                         <div className="row d-flex justify-content-center align-items-center">
-                            {books.slice(0, 3).map((e) => (
-                                <ReturnBook book={e} key={e.id} />
+                            {books.slice(0, 3).map((book) => (
+                                <ReturnBook book={book} key={book.id} />
                             ))}
                         </div>
                     </div>
                     <div className="carousel-item">
                         <div className="row d-flex justify-content-center align-items-center">
-                            {books.slice(4, 7).map((e) => (
-                                <ReturnBook book={e} key={e.id} />
+                            {books.slice(3, 6).map((book) => (
+                                <ReturnBook book={book} key={book.id} />
                             ))}
                         </div>
                     </div>
                     <div className="carousel-item">
                         <div className="row d-flex justify-content-center align-items-center">
-                            {books.slice(7, 10).map((e) => (
-                                <ReturnBook book={e} key={e.id} />
+                            {books.slice(6, 9).map((book) => (
+                                <ReturnBook book={book} key={book.id} />
                             ))}
                         </div>
                     </div>
-                    <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span className="visually-hidden">Trước</span>
-                    </button>
-                    <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                        <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span className="visually-hidden">Sau</span>
-                    </button>
                 </div>
+                <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span className="visually-hidden">Trước</span>
+                </button>
+                <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span className="visually-hidden">Sau</span>
+                </button>
             </div>
             <div className="d-lg-none mt-3">
                 <div className="row d-flex justify-content-center align-items-center">
                     <ReturnBook book={books[0]} key={books[0].id} />
                 </div>
             </div>
-            <div className="homepage-carousel-title mt-3">
-                <Link to="/search" type="button" className="btn btn-outline-secondary btn-lg">
+            <div className="text-center mt-4">
+                <Link to="/search" className="btn btn-outline-secondary btn-lg">
                     Xem thêm
                 </Link>
             </div>

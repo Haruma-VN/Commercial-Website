@@ -94,7 +94,7 @@ const BookCheckoutPage = () => {
             <div className="container d-none d-lg-block">
                 <div className="row mt-5">
                     <div className="col-sm-2 col-md-2">
-                        <img src={book!.image} alt="book" width="226" height="349" />
+                        <img src={book!.image} alt="book" width="226" height="349" className="img-fluid" />
                     </div>
                     <div className="col-4 col-md-4 container">
                         <div className="ml-2">
@@ -111,7 +111,7 @@ const BookCheckoutPage = () => {
             </div>
             <div className="container d-lg-none mt-5">
                 <div className="d-flex justify-content-center align-items-center">
-                    <img src={book!.image} alt="book" width="226" height="349" />
+                    <img src={book!.image} alt="book" width="226" height="349" className="img-fluid" />
                 </div>
                 <div className="mt-4">
                     <div className="ml-2">

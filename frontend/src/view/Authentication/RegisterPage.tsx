@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Spinner from "../Spinner/Spinner";
 import User from "../../model/User";
 import { UserContext } from "../../context/UserContext";
@@ -53,7 +53,7 @@ const RegisterPage = () => {
         <div className="container mt-5">
             <div className="row justify-content-center">
                 <div className="col-md-4">
-                    <div className="card">
+                    <div className="card shadow" style={{ backgroundColor: "rgba(255, 255, 255, 0.9)", borderRadius: "15px" }}>
                         <div className="card-body">
                             <h2 className="text-center mb-4">Đăng ký tài khoản</h2>
 
@@ -79,6 +79,12 @@ const RegisterPage = () => {
                                         Mật khẩu
                                     </label>
                                     <input type="password" className="form-control" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                                </div>
+
+                                <div className="text-end mb-3">
+                                    <Link to="/login" className="text-muted" style={{ fontStyle: "italic" }}>
+                                        Đăng nhập
+                                    </Link>
                                 </div>
 
                                 <button type="submit" className="btn btn-primary w-100">

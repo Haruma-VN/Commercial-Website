@@ -57,21 +57,19 @@ const SearchBookPage = () => {
             <div className="container">
                 <div>
                     <div className="row mt-5">
-                        <div className="col-6">
-                            <div className="d-flex">
-                                <input type="search" className="form-control me-2" placeholder="Tìm kiếm sách" aria-label="Tìm kiếm" onChange={(e) => setSearch(e.target.value)} />
-                                <button className="btn btn-outline-success" disabled>
+                        <div className="col-12 col-md-8 col-lg-6">
+                            <div className="input-group">
+                                <input type="search" className="form-control" placeholder="Tìm kiếm sách" aria-label="Tìm kiếm" onChange={(e) => setSearch(e.target.value)} style={{ borderRadius: "20px 0 0 20px", padding: "10px 20px" }} />
+                                <button className="btn btn-outline-success" disabled style={{ borderRadius: "0 20px 20px 0" }}>
                                     <img src={searchIcon} alt="search_icon" width={25} height={25} />
                                 </button>
                             </div>
                         </div>
                     </div>
                     <div className="mt-3">
-                        <h5>Số sách tìm thấy: ({books.length})</h5>
+                        <h5 className="text-secondary">Số sách tìm thấy: ({books.length})</h5>
                     </div>
-                    {books.map((e) => (
-                        <SearchBook book={e} key={e.id} />
-                    ))}
+                    {books.length > 0 ? books.map((e) => <SearchBook book={e} key={e.id} />) : <div className="mt-3 text-center text-muted">Không có sách nào được tìm thấy.</div>}
                 </div>
             </div>
         </div>

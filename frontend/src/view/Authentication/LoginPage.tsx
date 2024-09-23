@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import User from "../../model/User";
 import { UserContext } from "../../context/UserContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Spinner from "../Spinner/Spinner";
 
 const LoginPage = () => {
@@ -9,7 +9,8 @@ const LoginPage = () => {
     const [password, setPassword] = useState<string>("");
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const { user, setUser } = useContext(UserContext)!;
+    const { setUser } = useContext(UserContext)!;
+    let destination: string = "/home";
     const navigate = useNavigate();
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         setIsLoading(true);
@@ -26,16 +27,20 @@ const LoginPage = () => {
             if (!response.ok) {
                 throw new Error("Có lỗi xảy ra trong quá trình xử lý gửi request đến server");
             }
-            setUser((await response.json()) as User);
-            if (user!.userDetail.role === "admin") {
-                navigate("/admin");
-            } else {
-                navigate("/");
+            const user = (await response.json()) as User;
+            setUser(user);
+            if (user.userDetail.role === "admin") {
+                destination = "/admin";
             }
         };
         login()
             .catch((e) => setError(e.message))
-            .finally(() => setIsLoading(false));
+            .finally(() => {
+                setTimeout(() => {
+                    setIsLoading(false);
+                    navigate(destination);
+                }, 3000);
+            });
     };
 
     if (isLoading) {
@@ -43,16 +48,14 @@ const LoginPage = () => {
     }
 
     return (
-        <div className="container mt-5">
+        <div className="container mt-5 ">
             <div className="row justify-content-center">
                 <div className="col-md-4">
-                    <div className="card">
+                    <div className="card shadow-lg" style={{ borderRadius: "15px" }}>
                         <div className="card-body">
                             <h2 className="text-center mb-4">Đăng nhập tài khoản</h2>
-
                             {error && <div className="alert alert-danger">{error}</div>}
                             {isLoading && <div className="alert alert-success">Đăng nhập thành công!</div>}
-
                             <form onSubmit={handleSubmit}>
                                 <div className="mb-3">
                                     <label htmlFor="email" className="form-label">
@@ -67,8 +70,12 @@ const LoginPage = () => {
                                     </label>
                                     <input type="password" className="form-control" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                                 </div>
-
-                                <button type="submit" className="btn btn-primary w-100">
+                                <div className="text-end mb-3">
+                                    <Link to="/register" className="text-muted" style={{ fontStyle: "italic" }}>
+                                        Đăng ký
+                                    </Link>
+                                </div>
+                                <button type="submit" className="btn btn-primary w-100 shadow">
                                     Đăng nhập
                                 </button>
                             </form>

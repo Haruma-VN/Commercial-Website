@@ -1,0 +1,81 @@
+.my-custom-container {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.my-custom-heading {
+    color: #343a40;
+    font-weight: bold;
+}
+
+.my-custom-button {
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.my-custom-button:hover {
+    opacity: 0.9;
+}
+
+.my-custom-table {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f2f2f2;
+}
+
+.table th {
+    background-color: #343a40;
+    color: #ffffff;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.my-custom-button {
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-secondary.my-custom-button {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary.my-custom-button:hover {
+    background-color: #5a6268;
+    transform: scale(1.05);
+}
+
+.btn-danger.my-custom-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-danger.my-custom-button:hover {
+    background-color: #c82333;
+    transform: scale(1.05);
+}
+
+.btn-primary.my-custom-button {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary.my-custom-button:hover {
+    background-color: #0069d9;
+    transform: scale(1.05);
+}
+
+.my-custom-button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}

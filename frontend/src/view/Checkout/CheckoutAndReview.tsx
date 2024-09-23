@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContext";
 import Spinner from "../Spinner/Spinner";
 import Exception from "../Exception/Exception";
+import "./CheckoutAndReview.css";
 
 const CheckoutAndReview: React.FC<{ isMobile: boolean; book?: Book; showToast: () => void }> = ({ isMobile, book, showToast }) => {
     const { user } = useContext(UserContext)!;
@@ -75,7 +76,7 @@ const CheckoutAndReview: React.FC<{ isMobile: boolean; book?: Book; showToast: (
 
     return (
         <>
-            <div className={isMobile ? "card d-flex mt-5" : "card col-3 container d-flex mb-5"}>
+            <div className={`card d-flex mt-5 ${isMobile ? "" : "col-3 container d-flex mb-5"}`}>
                 <div className="card-body container">
                     <div className="mt-3">
                         <p>
@@ -85,7 +86,7 @@ const CheckoutAndReview: React.FC<{ isMobile: boolean; book?: Book; showToast: (
                             bản đã bán
                         </p>
                         <hr />
-                        {book && book.copies && book.copies > 0 ? <h4 className="text-success">Còn hàng</h4> : <h4 className="text-danger">Hết hàng</h4>}
+                        {book && book.copies > 0 ? <h4 className="text-success">Còn hàng</h4> : <h4 className="text-danger">Hết hàng</h4>}
                         <div className="row">
                             <p className="col-6 lead">
                                 <b>{book?.copies}</b> bản

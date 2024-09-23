@@ -1,0 +1,28 @@
+.latest-reviews-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.latest-reviews-container {
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.see-all-btn {
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.see-all-btn:hover {
+    background-color: #0056b3;
+}
+
+.no-reviews {
+    font-size: 1.1rem;
+    color: gray;
+}

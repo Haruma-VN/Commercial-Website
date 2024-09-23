@@ -1,4 +1,4 @@
-import { Explore } from "./components/Explore";
+import Explore from "./components/Explore";
 import Carousel from "./components/Carousel";
 import Heros from "./components/Heros";
 import LibraryService from "./components/LibraryService";

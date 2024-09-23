@@ -1,0 +1,25 @@
+.my-custom-excel-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.2s;
+    font-weight: bold;
+}
+
+.my-custom-excel-button:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+.my-custom-excel-button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.my-custom-excel-button:disabled {
+    background-color: #c3e6cb;
+    color: #6c757d;
+    cursor: not-allowed;
+}

@@ -6,6 +6,7 @@ import Modal from "react-modal";
 import Toast from "../Toast/Toast";
 import { changeCategoryStyle, deleteDataStyle } from "./ModalConfiguration";
 import ExcelExport from "./ExcelExport";
+import "./Manage.css";
 
 const ManageCategory = () => {
     const [categories, setCategories] = useState<Array<Category>>([]);
@@ -140,13 +141,13 @@ const ManageCategory = () => {
             <div className="d-flex justify-content-between align-items-center my-4">
                 <h2>Quản lý Danh mục</h2>
                 <div>
-                    <button className="btn btn-secondary me-2" onClick={() => onChange({ name: "" } as Category)}>
+                    <button className="btn btn-secondary my-custom-button me-2" onClick={() => onChange({ name: "" } as Category)}>
                         Thêm
                     </button>
                     <ExcelExport fileName="category" jsonData={categories} sheetName="Danh mục" />
                 </div>
             </div>
-            <table className="table table-striped">
+            <table className="table my-custom-table">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -162,10 +163,10 @@ const ManageCategory = () => {
                                     <label className="form-label">Tên danh mục</label>
                                     <input type="text" className="form-control" name="name" onChange={handleInputChange} value={currentCategory?.name} />
                                 </div>
-                                <button onClick={() => (currentCategory?.id ? updateCategory(currentCategory!) : addCategory(currentCategory!))} type="button" className="btn btn-primary">
+                                <button onClick={() => (currentCategory?.id ? updateCategory(currentCategory!) : addCategory(currentCategory!))} type="button" className="btn btn-primary my-custom-button">
                                     Lưu
                                 </button>
-                                <button type="button" className="btn btn-secondary" style={{ marginLeft: 4 }} onClick={() => setOpenDialog(false)}>
+                                <button type="button" className="btn btn-secondary my-custom-button" style={{ marginLeft: 4 }} onClick={() => setOpenDialog(false)}>
                                     Đóng
                                 </button>
                             </form>
@@ -173,10 +174,10 @@ const ManageCategory = () => {
                             <div className="text-center p-4">
                                 <h5 className="text-danger mb-4">{`Bạn có chắc chắn muốn xoá danh mục ${currentCategory?.name}?`}</h5>
                                 <div>
-                                    <button onClick={() => deleteCategory(currentCategory!)} type="button" className="btn btn-danger me-3 px-4" style={{ fontWeight: "bold" }}>
+                                    <button onClick={() => deleteCategory(currentCategory!)} type="button" className="btn btn-danger my-custom-button me-3 px-4" style={{ fontWeight: "bold" }}>
                                         Xoá
                                     </button>
-                                    <button onClick={() => setOpenDialog(false)} className="btn btn-secondary px-4">
+                                    <button onClick={() => setOpenDialog(false)} className="btn btn-secondary my-custom-button px-4">
                                         Đóng
                                     </button>
                                 </div>
@@ -188,10 +189,10 @@ const ManageCategory = () => {
                             <td>{category.id}</td>
                             <td>{category.name}</td>
                             <td>
-                                <button className="btn btn-primary me-2" onClick={() => onChange(category)}>
+                                <button className="btn btn-primary my-custom-button me-2" onClick={() => onChange(category)}>
                                     Sửa
                                 </button>
-                                <button className="btn btn-danger" onClick={() => onDelete(category)}>
+                                <button className="btn btn-danger my-custom-button" onClick={() => onDelete(category)}>
                                     Xoá
                                 </button>
                             </td>

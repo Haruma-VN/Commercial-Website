@@ -1,28 +1,30 @@
 import React from "react";
 import Review from "../../model/Review";
 import StarReview from "../Review/StarReview";
+import userAvatar from "../../assets/icons/user.png";
+import "./ClientReview.css";
 
 const ClientReview: React.FC<{ review: Review }> = ({ review }) => {
     const date = new Date(review.date);
     const month = date.getMonth() + 1;
-    const day = date.getDay();
+    const day = date.getDate();
     const year = date.getFullYear();
-    const timeLine = `${date.getHours()}:${date.getMinutes()}`;
+    const timeLine = `${date.getHours()}:${String(date.getMinutes()).padStart(2, "0")}`;
+
     return (
-        <div>
-            <div className="col-sm-8 col-md-8">
-                <h5>{review.username}</h5>
-                <div className="row">
-                    <div className="col">
-                        <h6>{`${day}/${month}/${year} lúc ${timeLine}`}</h6>
-                    </div>
-                    <div className="col">
-                        <StarReview rating={review.rating} size={16} />
-                    </div>
+        <div className="review-card">
+            <div className="review-header">
+                <img src={userAvatar} alt="User Avatar" width={30} height={30} className="avatar" />
+                <div>
+                    <h5>{review.username}</h5>
+                    <h6 className="review-date">{`${day}/${month}/${year} lúc ${timeLine}`}</h6>
                 </div>
-                <div className="mt-2">
-                    <p>{review.description}</p>
-                </div>
+            </div>
+            <div>
+                <StarReview rating={review.rating} size={16} />
+            </div>
+            <div className="mt-2">
+                <p>{review.description}</p>
             </div>
         </div>
     );

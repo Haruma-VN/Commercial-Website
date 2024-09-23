@@ -1,0 +1,40 @@
+.card {
+    border-radius: 1rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.btn-success {
+    background-color: #28a745;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.text-success {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.text-danger {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.lead {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+hr {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 1rem 0;
+}

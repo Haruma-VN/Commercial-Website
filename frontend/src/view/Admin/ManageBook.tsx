@@ -7,6 +7,7 @@ import Toast from "../Toast/Toast";
 import { changeDataStyle, deleteDataStyle } from "./ModalConfiguration";
 import { encodeFileToBase64 } from "../../utility/Encoder";
 import ExcelExport from "./ExcelExport";
+import "./Manage.css";
 
 const ManageBook = () => {
     const [books, setBooks] = useState<Array<Book>>([]);
@@ -160,10 +161,10 @@ const ManageBook = () => {
         <div className="container">
             <Toast onClose={() => setToggleBehavior(false)} isVisible={toggleSnackbar} message={snackbar[0]} bgColor={snackbar[1]} />
             <div className="d-flex justify-content-between align-items-center my-4">
-                <h2>Quản lý sách</h2>
+                <h2 className="my-custom-heading">Quản lý sách</h2>
                 <div>
                     <button
-                        className="btn btn-secondary me-2"
+                        className="btn btn-secondary my-custom-button me-2"
                         onClick={() =>
                             onChange({
                                 author: "",
@@ -179,7 +180,7 @@ const ManageBook = () => {
                     <ExcelExport fileName="book" jsonData={books.map((e) => ({ ...e, image: "Thông tin quá lớn để xuất" }))} sheetName="Sách" />
                 </div>
             </div>
-            <table className="table table-striped">
+            <table className="table my-custom-table">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -221,10 +222,10 @@ const ManageBook = () => {
                                     <input type="file" className="form-control" onChange={handleImageChange} />
                                     {currentBook?.image && !selectedImage && <img src={`${currentBook?.image}`} alt="Book Cover" style={{ marginTop: 10, maxWidth: 200 }} />}
                                 </div>
-                                <button onClick={() => (currentBook?.id ? updateBook(currentBook!) : addBook(currentBook!))} type="button" className="btn btn-primary">
+                                <button onClick={() => (currentBook?.id ? updateBook(currentBook!) : addBook(currentBook!))} type="button" className="btn btn-primary my-custom-button">
                                     Lưu
                                 </button>
-                                <button type="button" className="btn btn-secondary" style={{ marginLeft: 4 }} onClick={() => setOpenDialog(false)}>
+                                <button type="button" className="btn btn-secondary my-custom-button" style={{ marginLeft: 4 }} onClick={() => setOpenDialog(false)}>
                                     Đóng
                                 </button>
                             </form>
@@ -232,10 +233,10 @@ const ManageBook = () => {
                             <div className="text-center p-4">
                                 <h5 className="text-danger mb-4">{`Bạn có chắc chắn muốn xoá sách "${currentBook?.title}"?`}</h5>
                                 <div>
-                                    <button onClick={() => deleteBook(currentBook!)} type="button" className="btn btn-danger me-3 px-4" style={{ fontWeight: "bold" }}>
+                                    <button onClick={() => deleteBook(currentBook!)} type="button" className="btn btn-danger my-custom-button me-3 px-4" style={{ fontWeight: "bold" }}>
                                         Xoá
                                     </button>
-                                    <button onClick={() => setOpenDialog(false)} className="btn btn-secondary px-4">
+                                    <button onClick={() => setOpenDialog(false)} className="btn btn-secondary my-custom-button px-4">
                                         Đóng
                                     </button>
                                 </div>
@@ -253,10 +254,10 @@ const ManageBook = () => {
                             <td>{book.copies}</td>
                             <td>{book.copiesAvailable}</td>
                             <td>
-                                <button className="btn btn-primary me-2 mt-1" onClick={() => onChange(book)}>
+                                <button className="btn btn-primary my-custom-button me-2 mt-1" onClick={() => onChange(book)}>
                                     Sửa
                                 </button>
-                                <button className="btn btn-danger mt-3" onClick={() => onDelete(book)}>
+                                <button className="btn btn-danger my-custom-button mt-3" onClick={() => onDelete(book)}>
                                     Xoá
                                 </button>
                             </td>
