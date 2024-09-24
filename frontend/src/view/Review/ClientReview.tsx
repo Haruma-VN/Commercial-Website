@@ -1,6 +1,6 @@
 import React from "react";
 import Review from "../../model/Review";
-import StarReview from "../Review/StarReview";
+import StarReview from "./StarReview";
 import userAvatar from "../../assets/icons/user.png";
 import "./ClientReview.css";
 

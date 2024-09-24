@@ -1,14 +1,14 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../../context/UserContext";
-import "./LibraryService.css"; // Linking to the correct CSS file
+import "./LibraryService.css";
 
 const LibraryService = () => {
     const { user } = useContext(UserContext)!;
 
     return (
-        <div className="container my-5 fancy-container">
-            <div className="row p-4 align-items-center fancy-card shadow-lg rounded">
+        <div className="container my-5">
+            <div className="row p-4 align-items-center fancy-card shadow-lg rounded fancy-container">
                 <div className="col-lg-7 p-3">
                     <h1 className="display-4 fw-bold" style={{ color: "#2d3436" }}>
                         Bạn không thể tìm thấy sách?

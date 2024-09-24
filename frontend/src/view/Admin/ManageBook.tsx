@@ -72,10 +72,9 @@ const ManageBook = () => {
 
     const updateBook = async (book: Book) => {
         setLoading(true);
-        if (!selectedImage) {
-            throw new Error("Không có hình ảnh hợp lệ");
+        if (selectedImage) {
+            book.image = (await encodeFileToBase64(selectedImage)) as string;
         }
-        book.image = (await encodeFileToBase64(selectedImage)) as string;
         const fetchBooks = async () => {
             const response = await fetch("http://localhost:3308/api/v1/book", {
                 method: "PUT",
@@ -85,11 +84,11 @@ const ManageBook = () => {
             if (!response.ok) {
                 throw new Error("Có lỗi xảy ra khi cập nhật sách");
             }
+            setBooks((await response.json()) as Array<Book>);
         };
         fetchBooks()
             .catch((e) => setError(e.message))
             .finally(() => {
-                setBooks([...books.filter((e) => e.id === currentBook!.id), currentBook!]);
                 setSnackbar(["Sửa sách hoàn tất", "success"]);
                 setLoading(false);
                 showToast();

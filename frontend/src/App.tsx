@@ -10,6 +10,7 @@ import RegisterPage from "./view/Authentication/RegisterPage";
 import { UserProvider } from "./context/UserContext";
 import CartPage from "./view/Cart/CartPage";
 import AdminHomePage from "./view/Admin/HomePage";
+import ReviewPage from "./view/Review/ReviewPage";
 
 function App() {
     return (
@@ -25,6 +26,7 @@ function App() {
                         <Route path="/cart" element={<CartPage />} />
                         <Route path="/register" element={<RegisterPage />} />
                         <Route path="/checkout/:id" element={<BookCheckoutPage />} />
+                        <Route path="/review/:id" element={<ReviewPage />} />
                         <Route path="/admin" element={<AdminHomePage />} />
                     </Routes>
                 </div>

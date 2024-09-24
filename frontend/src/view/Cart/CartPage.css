@@ -1,0 +1,42 @@
+.custom-cart {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    transition: box-shadow 0.3s;
+}
+
+.card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.my-custom-button {
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    padding: 10px 10px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.my-custom-button:hover {
+    background-color: #0069d9;
+    transform: translateY(-2px);
+}
+
+.card-title {
+    font-size: 1.25rem;
+}
+
+.card-subtitle {
+    font-size: 1rem;
+}
+
+.card-text {
+    font-size: 0.9rem;
+    color: #555;
+}

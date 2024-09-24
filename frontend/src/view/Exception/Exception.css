@@ -1,0 +1,29 @@
+.exception-card {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s;
+    height: auto;
+    padding: 10px;
+}
+
+.exception-card:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-title-exception {
+    font-size: 1.25rem;
+    color: #721c24;
+}
+
+.card-text-exception {
+    font-size: 1rem;
+    color: #721c24;
+}
+
+@media (max-width: 576px) {
+    .exception-card {
+        padding: 20px;
+    }
+}

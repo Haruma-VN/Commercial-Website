@@ -12,7 +12,7 @@ const BookCheckoutPage = () => {
     const [book, setBook] = useState<Book>();
     const [isLoading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const [review, setReview] = useState<Array<Review>>();
+    const [review, setReview] = useState<Array<Review>>([]);
     const [totalStar, setTotalStar] = useState<number>(0);
     const [isLoadingReview, setIsLoadingReview] = useState<boolean>(true);
     const [toastVisible, setToastVisible] = useState<boolean>(false);
@@ -65,11 +65,11 @@ const BookCheckoutPage = () => {
                 throw new Error("Có lỗi xảy ra trong quá trình xử lý gửi request đến server, không thể lấy đánh giá");
             }
             const review = (await response.json()) as Array<Review>;
-            // Have review
             if (review.length > 0) {
                 const star = Math.round(review.reduce((a, b) => a + b.rating, 0) / review.length);
                 setTotalStar(star);
             }
+            console.log(review);
             setReview(review);
         };
         fetchReview()
@@ -79,7 +79,11 @@ const BookCheckoutPage = () => {
 
     // The state is still handling
 
-    if (isLoading || isLoadingReview) {
+    if (isLoading) {
+        return <Spinner />;
+    }
+
+    if (isLoadingReview) {
         return <Spinner />;
     }
 
@@ -106,7 +110,7 @@ const BookCheckoutPage = () => {
                     </div>
                     <CheckoutAndReview book={book} key={book!.id} isMobile={false} showToast={showToast} />
                     <hr className="mt-4" />
-                    <LatestReview bookId={book!.id} isMobile={false} review={review!} />
+                    <LatestReview bookId={book!.id} isMobile={false} review={review} setReview={setReview} />
                 </div>
             </div>
             <div className="container d-lg-none mt-5">
@@ -123,7 +127,7 @@ const BookCheckoutPage = () => {
                 </div>
                 <CheckoutAndReview book={book} key={book!.id} isMobile={true} showToast={showToast} />
                 <hr />
-                <LatestReview bookId={book!.id} isMobile={true} review={review!} />
+                <LatestReview bookId={book!.id} isMobile={true} review={review} setReview={setReview} />
             </div>
         </div>
     );

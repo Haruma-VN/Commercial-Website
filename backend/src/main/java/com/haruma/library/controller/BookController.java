@@ -44,13 +44,13 @@ public class BookController {
     }
 
     @PutMapping("/book")
-    public ResponseEntity<Book> updateBook(@RequestBody Book book) {
+    public ResponseEntity<List<Book>> updateBook(@RequestBody Book book) {
         var data = bookService.updateBook(book);
         if (data.isPresent()) {
-            return new ResponseEntity<>(book, HttpStatus.OK);
+            return new ResponseEntity<>(bookService.findAllBook(), HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<>(book, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 

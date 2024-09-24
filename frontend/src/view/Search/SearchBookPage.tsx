@@ -3,7 +3,7 @@ import Book from "../../model/Book";
 import Spinner from "../Spinner/Spinner";
 import Exception from "../Exception/Exception";
 import SearchBook from "./components/SearchBook";
-import searchIcon from "../../assets/icons/icons8-search.svg";
+import "./SearchBookPage.css";
 
 const SearchBookPage = () => {
     // Books waiting for fetch
@@ -57,12 +57,9 @@ const SearchBookPage = () => {
             <div className="container">
                 <div>
                     <div className="row mt-5">
-                        <div className="col-12 col-md-8 col-lg-6">
-                            <div className="input-group">
-                                <input type="search" className="form-control" placeholder="Tìm kiếm sách" aria-label="Tìm kiếm" onChange={(e) => setSearch(e.target.value)} style={{ borderRadius: "20px 0 0 20px", padding: "10px 20px" }} />
-                                <button className="btn btn-outline-success" disabled style={{ borderRadius: "0 20px 20px 0" }}>
-                                    <img src={searchIcon} alt="search_icon" width={25} height={25} />
-                                </button>
+                        <div className="col-12">
+                            <div className="input-group rounded-pill shadow-sm" style={{ overflow: "hidden" }}>
+                                <input type="search" className="form-control border-0 rounded-start" placeholder="Tìm kiếm sách" aria-label="Tìm kiếm" onChange={(e) => setSearch(e.target.value)} style={{ padding: "10px 30px" }} />
                             </div>
                         </div>
                     </div>

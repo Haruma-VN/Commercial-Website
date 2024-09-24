@@ -31,12 +31,6 @@
     height: 25em !important;
 }
 
-.lost-image {
-    background-image: url("./assets/images/PublicImages/image-3.jpg");
-    height: 25em !important;
-    width: "720";
-}
-
 .homepage-carousel-title {
     display: flex !important;
     justify-content: center !important;

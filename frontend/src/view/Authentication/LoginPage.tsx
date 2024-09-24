@@ -39,7 +39,7 @@ const LoginPage = () => {
                 setTimeout(() => {
                     setIsLoading(false);
                     navigate(destination);
-                }, 3000);
+                }, 500);
             });
     };
 

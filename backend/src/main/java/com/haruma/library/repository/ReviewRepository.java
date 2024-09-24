@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    @Query(value="select * from review as r where r.id = :bookId", nativeQuery = true)
+    @Query(value="select * from review as r where r.book_id = :bookId", nativeQuery = true)
     List<Review> findReviewByBookId(Long bookId);
 
 }

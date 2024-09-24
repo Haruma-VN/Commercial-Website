@@ -1,6 +1,7 @@
 package com.haruma.library.controller;
 
 import com.haruma.library.entity.Review;
+import com.haruma.library.service.BookService;
 import com.haruma.library.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,9 +16,12 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
+    private final BookService bookService;
+
     @Autowired
-    public ReviewController(ReviewService reviewService) {
+    public ReviewController(ReviewService reviewService, BookService bookService) {
         this.reviewService = reviewService;
+        this.bookService = bookService;
     }
 
     @GetMapping("/review")
@@ -37,8 +41,9 @@ public class ReviewController {
         return new ResponseEntity<>(review, HttpStatus.OK);
     }
 
-    @PostMapping("/review")
-    public ResponseEntity<Review> addReview(@RequestBody Review review) {
+    @PostMapping("/review/{bookId}")
+    public ResponseEntity<Review> addReview(@RequestBody Review review, @PathVariable("bookId") Long bookId) {
+        review.setBook(bookService.findBookById(bookId).get());
         reviewService.addReview(review);
         return new ResponseEntity<>(review, HttpStatus.OK);
     }
