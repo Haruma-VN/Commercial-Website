@@ -2,7 +2,7 @@ import "./Exception.css";
 
 const Exception = ({ message }: { message: string }) => {
     return (
-        <div className="container m-5">
+        <div className="container m-2">
             <div className="exception-card">
                 <div className="card-body">
                     <div className="d-flex align-items-center mb-3">
