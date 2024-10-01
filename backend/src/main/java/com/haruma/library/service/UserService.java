@@ -22,4 +22,6 @@ public interface UserService {
 
     Optional<User> deleteUserById(Long id);
 
+    Long countUserByRole(String role);
+
 }

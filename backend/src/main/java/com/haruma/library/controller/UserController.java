@@ -31,6 +31,11 @@ public class UserController {
         return user.map(e -> new ResponseEntity<>(e, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping("/user/count/{role}")
+    public ResponseEntity<Long> countUserByRole(@PathVariable("role") String role) {
+        return new ResponseEntity<>(userService.countUserByRole(role), HttpStatus.OK);
+    }
+
     @PostMapping("/user")
     public ResponseEntity<User> addUser(@RequestBody User user) {
         userService.addUser(user);
@@ -51,8 +56,8 @@ public class UserController {
 
     @PostMapping("/user/register")
     public ResponseEntity<User> registerUser(@RequestBody User user) {
-        userService.registerUser(user.getEmail(), user.getPassword(), user.getUserDetail());
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        var newUser = userService.registerUser(user.getEmail(), user.getPassword(), user.getUserDetail());
+        return new ResponseEntity<>(newUser, HttpStatus.OK);
     }
 
     @PostMapping("/user/login")

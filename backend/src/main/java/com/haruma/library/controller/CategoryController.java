@@ -25,6 +25,11 @@ public class CategoryController {
         return new ResponseEntity<>(categoryService.findAllCategory(), HttpStatus.OK);
     }
 
+    @GetMapping("/category/count")
+    public ResponseEntity<Long> countCategory() {
+        return new ResponseEntity<>(categoryService.count(), HttpStatus.OK);
+    }
+
     @GetMapping("/category/{categoryId}")
     public ResponseEntity<Category> findCategoryById(@PathVariable("categoryId") Long categoryId) {
         var category = categoryService.findCategoryById(categoryId);

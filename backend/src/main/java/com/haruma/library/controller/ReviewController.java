@@ -43,9 +43,12 @@ public class ReviewController {
 
     @PostMapping("/review/{bookId}")
     public ResponseEntity<Review> addReview(@RequestBody Review review, @PathVariable("bookId") Long bookId) {
-        review.setBook(bookService.findBookById(bookId).get());
-        reviewService.addReview(review);
-        return new ResponseEntity<>(review, HttpStatus.OK);
+        var book = bookService.findBookById(bookId);
+        return book.map(e -> {
+            review.setBook(e);
+            reviewService.addReview(review);
+            return new ResponseEntity<>(review, HttpStatus.OK);
+        }).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
     @PutMapping("/review")

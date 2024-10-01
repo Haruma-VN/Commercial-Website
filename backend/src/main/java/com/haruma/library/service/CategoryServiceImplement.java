@@ -49,4 +49,9 @@ public class CategoryServiceImplement implements CategoryService {
         data.ifPresent(categoryRepository::delete);
         return data;
     }
+
+    @Override
+    public Long count() {
+        return categoryRepository.count();
+    }
 }

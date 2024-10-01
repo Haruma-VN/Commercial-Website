@@ -31,6 +31,17 @@ const AdminHomePage = () => {
                 return <Dashboard />;
         }
     };
+
+    const exchanger = (section: string): string => {
+        const data = {
+            dashboard: "Trang chủ",
+            book: "Quản lý Sách",
+            category: "Quản lý Danh mục",
+            user: "Quản lý Người dùng",
+        } as Record<string, string>;
+        return data[section];
+    };
+
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-light bg-light d-lg-none custom-navbar">
@@ -46,7 +57,7 @@ const AdminHomePage = () => {
                             {["dashboard", "user", "book", "category"].map((section) => (
                                 <li className="nav-item" key={section}>
                                     <a className="nav-link custom-nav-link" href="#" onClick={() => setSelectedSection(section)}>
-                                        {section === "dashboard" ? "Trang chủ" : `Quản lý ${section === "user" ? "người dùng" : section === "book" ? "sách" : "danh mục"}`}
+                                        {exchanger(section)}
                                     </a>
                                 </li>
                             ))}
@@ -62,7 +73,7 @@ const AdminHomePage = () => {
                         {["dashboard", "user", "book", "category"].map((section) => (
                             <li className={`list-group-item custom-list-group-item`} key={section}>
                                 <a className={`nav-link custom-nav-link`} href="#" onClick={() => setSelectedSection(section)}>
-                                    {section === "dashboard" ? "Trang chủ" : `Quản lý ${section === "user" ? "người dùng" : section === "book" ? "sách" : "danh mục"}`}
+                                    {exchanger(section)}
                                 </a>
                             </li>
                         ))}

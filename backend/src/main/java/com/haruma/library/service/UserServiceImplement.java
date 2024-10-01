@@ -72,6 +72,7 @@ public class UserServiceImplement implements UserService {
     public Optional<User> updateUser(User user) {
         var currentReview = userRepository.findById(user.getId());
         if (currentReview.isPresent()) {
+            user.getUserDetail().setUserId(currentReview.get().getUserDetail().getUserId());
             userRepository.save(user);
             return Optional.of(user);
         }
@@ -83,5 +84,10 @@ public class UserServiceImplement implements UserService {
         var data = userRepository.findById(id);
         data.ifPresent(userRepository::delete);
         return data;
+    }
+
+    @Override
+    public Long countUserByRole(String role) {
+        return userRepository.countUserByRole(role);
     }
 }

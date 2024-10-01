@@ -15,4 +15,6 @@ public interface CategoryService {
     Optional<Category> updateCategory(Category category);
 
     Optional<Category> deleteCategoryById(Long id);
+
+    Long count();
 }
