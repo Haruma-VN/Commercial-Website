@@ -4,6 +4,7 @@ import categoryIcon from "../../assets/icons/category.png";
 import Exception from "../Exception/Exception";
 import StackedBarChart from "./StackedBarChart";
 import Book from "../../model/Book";
+import Spinner from "../Spinner/Spinner";
 
 const Dashboard: React.FC = () => {
     const [userCount, setUserCount] = useState<number>(0);
@@ -11,6 +12,10 @@ const Dashboard: React.FC = () => {
     const [categoryCount, setCategoryCount] = useState<number>(0);
     const [error, setError] = useState<string | null>(null);
     const [books, setBooks] = useState<Array<Book>>([]);
+    const [isLoadUser, setIsLoadUser] = useState<boolean>(true);
+    const [isLoadAdmin, setIsLoadAdmin] = useState<boolean>(true);
+    const [isLoadCategory, setIsLoadCategory] = useState<boolean>(true);
+    const [isLoadBook, setIsLoadBook] = useState<boolean>(true);
 
     useEffect(() => {
         const fetchAdmin = async () => {
@@ -24,7 +29,8 @@ const Dashboard: React.FC = () => {
         };
         fetchAdmin()
             .then((e) => setAdminCount(e))
-            .catch((e) => setError(e.message));
+            .catch((e) => setError(e.message))
+            .finally(() => setIsLoadAdmin(false));
     }, []);
 
     useEffect(() => {
@@ -35,7 +41,9 @@ const Dashboard: React.FC = () => {
             }
             setBooks((await response.json()) as Array<Book>);
         };
-        fetchBooks().catch((e) => setError(e.message));
+        fetchBooks()
+            .catch((e) => setError(e.message))
+            .finally(() => setIsLoadBook(false));
     }, []);
 
     useEffect(() => {
@@ -50,7 +58,8 @@ const Dashboard: React.FC = () => {
         };
         fetchCategory()
             .then((e) => setCategoryCount(e))
-            .catch((e) => setError(e.message));
+            .catch((e) => setError(e.message))
+            .finally(() => setIsLoadCategory(false));
     }, []);
 
     useEffect(() => {
@@ -65,8 +74,13 @@ const Dashboard: React.FC = () => {
         };
         fetchUser()
             .then((e) => setUserCount(e))
-            .catch((e) => setError(e.message));
+            .catch((e) => setError(e.message))
+            .finally(() => setIsLoadUser(false));
     }, []);
+
+    if (isLoadAdmin || isLoadBook || isLoadCategory || isLoadUser) {
+        return <Spinner />;
+    }
 
     if (error !== null) {
         return <Exception message={error} />;

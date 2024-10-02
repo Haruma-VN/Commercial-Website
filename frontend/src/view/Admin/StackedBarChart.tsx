@@ -14,6 +14,10 @@ const StackedBarChart: React.FC<{
             data: data.map((e) => e[1]),
             label: "Còn lại",
         },
+        {
+            data: data.map((e) => e[0] - e[1]),
+            label: "Đã bán",
+        },
     ];
 
     return (
