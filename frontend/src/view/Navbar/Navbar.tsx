@@ -67,8 +67,8 @@ const Navbar = () => {
                                     Đăng xuất
                                 </button>
                             ) : (
-                                <Link to="/register" className="btn btn-outline-light register-btn">
-                                    Đăng ký
+                                <Link to="/login" className="btn btn-outline-light register-btn">
+                                    Đăng nhập
                                 </Link>
                             )}
                         </li>

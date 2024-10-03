@@ -123,7 +123,7 @@ const Dashboard: React.FC = () => {
                 <div className="col-md-12">
                     <div className="card shadow-sm">
                         <div className="card-body">
-                            <h5 className="card-title">Quản lý sách</h5>
+                            <h5 className="card-title mb-4">Quản lý Sách</h5>
                             <StackedBarChart name={books.map((e) => e.title)} data={books.map((e) => [e.copies, e.copiesAvailable])} />
                         </div>
                     </div>
