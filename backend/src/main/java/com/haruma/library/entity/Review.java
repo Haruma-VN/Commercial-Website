@@ -1,11 +1,14 @@
 package com.haruma.library.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="review")
@@ -16,16 +19,11 @@ import java.util.Date;
 @EqualsAndHashCode
 @Builder
 public class Review {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", nullable = false)
     private Long id;
-
-    @Column(name="user_email", nullable = false)
-    private String userEmail;
-
-    @Column(name="username", nullable = false)
-    private String username;
 
     @Column(name="date")
     @CreationTimestamp
@@ -41,5 +39,9 @@ public class Review {
     @JoinColumn(name = "book_id")
     @JsonIgnore
     private Book book;
-}
 
+    @ManyToMany(mappedBy = "reviews")
+    @JsonIgnore
+    private List<User> users = new ArrayList<>();
+
+}

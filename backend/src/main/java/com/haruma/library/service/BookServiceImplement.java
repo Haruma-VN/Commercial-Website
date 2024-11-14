@@ -3,6 +3,8 @@ package com.haruma.library.service;
 import com.haruma.library.entity.Book;
 import com.haruma.library.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +21,9 @@ public class BookServiceImplement implements BookService {
     }
 
     @Override
-    public List<Book> findAllBook() {
-        return bookRepository.findAll();
+    public Page<Book> findAllBook(Integer page, Integer limit) {
+        var pagable = PageRequest.of(page, limit);
+        return bookRepository.findAll(pagable);
     }
 
     @Override
@@ -43,6 +46,7 @@ public class BookServiceImplement implements BookService {
             currentBook.setDescription(book.getDescription());
             currentBook.setCopies(book.getCopies());
             currentBook.setCopiesAvailable(book.getCopiesAvailable());
+            currentBook.setImage(book.getImage());
             bookRepository.save(currentBook);
             return Optional.of(currentBook);
         }
@@ -57,7 +61,8 @@ public class BookServiceImplement implements BookService {
     }
 
     @Override
-    public List<Book> findBookByTitle(String title) {
-        return bookRepository.findByTitle(title);
+    public Page<Book> findBookByTitle(String title, Integer page, Integer limit) {
+        var pagable = PageRequest.of(page, limit);
+        return bookRepository.findByTitle(title, pagable);
     }
 }

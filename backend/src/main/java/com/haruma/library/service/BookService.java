@@ -1,13 +1,14 @@
 package com.haruma.library.service;
 
 import com.haruma.library.entity.Book;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface BookService {
 
-    List<Book> findAllBook();
+    Page<Book> findAllBook(Integer page, Integer limit);
 
     void addBook(Book book);
 
@@ -17,5 +18,5 @@ public interface BookService {
 
     Optional<Book> deleteBookById(Long id);
 
-    List<Book> findBookByTitle(String title);
+    Page<Book> findBookByTitle(String title, Integer page, Integer limit);
 }

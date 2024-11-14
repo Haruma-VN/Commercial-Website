@@ -3,6 +3,7 @@ package com.haruma.library.controller;
 import com.haruma.library.entity.Book;
 import com.haruma.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +22,9 @@ public class BookController {
     }
 
     @GetMapping("/book")
-    public ResponseEntity<List<Book>> findAllBooks() {
-        return new ResponseEntity<>(bookService.findAllBook(), HttpStatus.OK);
+    public ResponseEntity<Page<Book>> findAllBooks(@RequestParam(defaultValue = "0") Integer page,
+                                                   @RequestParam(defaultValue = "10") Integer limit) {
+        return new ResponseEntity<>(bookService.findAllBook(page, limit), HttpStatus.OK);
     }
 
     @GetMapping("/book/{bookId}")
@@ -32,8 +34,10 @@ public class BookController {
     }
 
     @GetMapping("/book/search/title/{title}")
-    public ResponseEntity<List<Book>> findBookByTitle(@PathVariable(name="title") String title) {
-        var book = bookService.findBookByTitle("%" + title + "%");
+    public ResponseEntity<Page<Book>> findBookByTitle(@PathVariable(name="title") String title,
+                                                      @RequestParam(defaultValue = "0") Integer page,
+                                                      @RequestParam(defaultValue = "10") Integer limit) {
+        var book = bookService.findBookByTitle("%" + title + "%", page, limit);
         return new ResponseEntity<>(book, HttpStatus.OK);
     }
 
@@ -44,14 +48,9 @@ public class BookController {
     }
 
     @PutMapping("/book")
-    public ResponseEntity<List<Book>> updateBook(@RequestBody Book book) {
+    public ResponseEntity<Book> updateBook(@RequestBody Book book) {
         var data = bookService.updateBook(book);
-        if (data.isPresent()) {
-            return new ResponseEntity<>(bookService.findAllBook(), HttpStatus.OK);
-        }
-        else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+        return data.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping("/book/{bookId}")

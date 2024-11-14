@@ -39,5 +39,12 @@ public class User {
     @JsonIgnore
     private Cart cart;
 
+    @ManyToMany
+    @JoinTable(
+            name = "user_reviews",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "review_id")
+    )
+    @JsonIgnore
+    private List<Review> reviews = new ArrayList<>();
 }
-
