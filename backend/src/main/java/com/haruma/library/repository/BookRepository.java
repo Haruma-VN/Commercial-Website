@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 @Repository
-public interface BookRepository extends JpaRepository<Book, Long>   {
+public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Query(value = "select * from book as b where b.title like :title", nativeQuery = true)
     Page<Book> findByTitle(@Param("title") String title, Pageable pageable);

@@ -22,7 +22,6 @@ const SearchBookPage = () => {
             }
             bookUrl += `?page=${currentPage}&limit=10`;
             try {
-                console.log(bookUrl);
                 const response = await fetch(bookUrl, {
                     method: 'GET',
                     headers: {

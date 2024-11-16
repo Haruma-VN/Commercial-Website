@@ -3,7 +3,6 @@ package com.haruma.library.service;
 import com.haruma.library.entity.Book;
 import org.springframework.data.domain.Page;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface BookService {
