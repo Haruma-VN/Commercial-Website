@@ -4,6 +4,7 @@ import com.haruma.library.entity.Book;
 import com.haruma.library.entity.Cart;
 import com.haruma.library.entity.User;
 import com.haruma.library.service.CartService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
+@Tag(name="Cart", description = "Cart API")
 public class CartController {
 
     private final CartService cartService;
