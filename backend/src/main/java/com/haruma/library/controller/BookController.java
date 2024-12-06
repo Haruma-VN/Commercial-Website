@@ -38,6 +38,14 @@ public class BookController {
         return book.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping("/book/category/{categoryId}")
+    @Operation(summary = "Find a list of book by category id")
+    public ResponseEntity<Page<Book>> findBookByCategoryId(@PathVariable(name="categoryId") Long id, @RequestParam(defaultValue = "0") Integer page,
+                                                           @RequestParam(defaultValue = "10") Integer limit) {
+        var book = bookService.findBookByCategoryId(id, page, limit);
+        return new ResponseEntity<>(bookService.findBookByCategoryId(id, page, limit), HttpStatus.OK);
+    }
+
     @Operation(summary = "Find a book by its title")
     @GetMapping("/book/search/title/{title}")
     public ResponseEntity<Page<Book>> findBookByTitle(@PathVariable(name="title") String title,

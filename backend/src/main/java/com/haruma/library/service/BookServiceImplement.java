@@ -65,4 +65,10 @@ public class BookServiceImplement implements BookService {
         var pagable = PageRequest.of(page, limit);
         return bookRepository.findByTitle(title, pagable);
     }
+
+    @Override
+    public Page<Book> findBookByCategoryId(Long categoryId, Integer page, Integer limit) {
+        var pagable = PageRequest.of(page, limit);
+        return bookRepository.findByCategoryId(categoryId, pagable);
+    }
 }

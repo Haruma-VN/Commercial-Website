@@ -1,6 +1,7 @@
 package com.haruma.library.repository;
 
 import com.haruma.library.entity.Book;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,4 +23,5 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             "where c.user_id = :userId", nativeQuery = true)
     List<Book> findByUserId(@Param("userId") Long userId);
 
+    Page<Book> findByCategoryId(@Param("categoryId") Long categoryId, Pageable pageable);
 }

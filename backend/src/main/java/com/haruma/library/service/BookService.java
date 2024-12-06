@@ -18,4 +18,6 @@ public interface BookService {
     Optional<Book> deleteBookById(Long id);
 
     Page<Book> findBookByTitle(String title, Integer page, Integer limit);
+
+    Page<Book> findBookByCategoryId(Long categoryId, Integer page, Integer limit);
 }
