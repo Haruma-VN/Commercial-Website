@@ -5,6 +5,7 @@ import { UserContext } from '../../context/UserContext';
 import Spinner from '../Spinner/Spinner';
 import Exception from '../Exception/Exception';
 import './CheckoutAndReview.css';
+import { getCookie } from 'typescript-cookie';
 
 const CheckoutAndReview: React.FC<{ isMobile: boolean; book?: Book; showToast: () => void }> = ({
 	isMobile,
@@ -17,13 +18,15 @@ const CheckoutAndReview: React.FC<{ isMobile: boolean; book?: Book; showToast: (
 	const [alreadyInCart, setAlreadyInCart] = useState<boolean>(false);
 	useEffect(() => {
 		if (user === null) return;
-		const checkUrl: string = `http://localhost:3308/api/v1/cart/include/${user.email}/${book?.id}`;
+		const checkUrl: string = `http://localhost:3308/api/v1/cart/include`;
 		const fetchAndReview = async () => {
 			const response = await fetch(checkUrl, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
+					Authorization: `Bearer ${getCookie('accessToken')}`,
 				},
+				body: JSON.stringify({ email: user.email, bookId: book?.id }),
 			});
 			if (!response.ok) {
 				throw new Error('Có lỗi xảy ra trong quá trình xử lý gửi request đến server');
@@ -39,16 +42,18 @@ const CheckoutAndReview: React.FC<{ isMobile: boolean; book?: Book; showToast: (
 	const onAddBookToCart = async () => {
 		if (user === null) return;
 		setLoading(true);
-		const checkUrl: string = `http://localhost:3308/api/v1/cart/${user.email}/${book?.id}`;
+		const checkUrl: string = `http://localhost:3308/api/v1/cart`;
 		const fetchAndReview = async () => {
 			const response = await fetch(checkUrl, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
+					Authorization: `Bearer ${getCookie('accessToken')}`,
 				},
+				body: JSON.stringify({ email: user.email, bookId: book?.id }),
 			});
 			if (!response.ok) {
-				throw new Error('Có lỗi xảy ra trong quá trình xử lý gửi request đến server');
+				throw new Error(`Có lỗi xảy ra trong quá trình xử lý gửi request đến server`);
 			}
 			setAlreadyInCart(true);
 			showToast();

@@ -2,7 +2,6 @@ package com.haruma.library.service;
 
 import com.haruma.library.entity.Book;
 import com.haruma.library.entity.Cart;
-import com.haruma.library.entity.CartItem;
 import com.haruma.library.entity.User;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +14,7 @@ public interface CartService {
 
     Cart removeFromCart(User user, Long bookId) throws Exception;
 
-    List<Book> getAllCartItem(User user) throws Exception;
+    List<Book> getAllCartItem(Long userId) throws Exception;
 
     Boolean containCartItemInCart(User user, Long bookId) throws Exception;
 

@@ -19,4 +19,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query(value="select * from `order` where address_id=:addressId", nativeQuery = true)
     Page<Order> findByAddressId(@Param("addressId") Long id, Pageable pageable);
 
+
 }

@@ -14,7 +14,7 @@ const CartPage = () => {
 	const navigate = useNavigate();
 	useEffect(() => {
 		if (user === null) return;
-		const bookUrl = `http://localhost:3308/api/v1/cart/${user!.email}`;
+		const bookUrl = `http://localhost:3308/api/v1/cart?userId=${user.id}`;
 		const fetchBooks = async () => {
 			const response = await fetch(bookUrl, {
 				method: 'GET',
@@ -25,7 +25,9 @@ const CartPage = () => {
 			if (!response.ok) {
 				throw new Error('Có lỗi xảy ra khi lấy danh sách giỏ hàng');
 			}
-			setBook((await response.json()) as Array<Book>);
+			const data = await response.json();
+			console.log(data);
+			setBook(data as Array<Book>);
 		};
 		fetchBooks()
 			.catch((e) => setError(e))
@@ -34,13 +36,15 @@ const CartPage = () => {
 	const onDelete = async (id: number) => {
 		if (user === null) return;
 		setLoading(true);
-		const bookUrl = `http://localhost:3308/api/v1/cart/${user!.email}/${id}`;
+		const bookUrl = `http://localhost:3308/api/v1/cart`;
 		const deleteBook = async () => {
 			const response = await fetch(bookUrl, {
 				method: 'DELETE',
 				headers: {
 					Authorization: `Bearer ${getCookie('accessToken')}`,
+					'Content-Type': 'application/json',
 				},
+				body: JSON.stringify({ email: user.email, bookId: id }),
 			});
 			if (!response.ok) {
 				throw new Error('Có lỗi xảy ra khi lấy xóa giỏ hàng');

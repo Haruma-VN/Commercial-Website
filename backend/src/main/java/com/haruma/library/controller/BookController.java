@@ -44,7 +44,7 @@ public class BookController {
     public ResponseEntity<Page<?>> findBookByCategoryId(@PathVariable(name="categoryId") Long id, @RequestParam(defaultValue = "0") Integer page,
                                                            @RequestParam(defaultValue = "10") Integer limit) {
         var book = bookService.findBookByCategoryId(id, page, limit);
-        return new ResponseEntity<>(bookService.findBookByCategoryId(id, page, limit), HttpStatus.OK);
+        return new ResponseEntity<>(book, HttpStatus.OK);
     }
 
     @Operation(summary = "Find a book by its title")

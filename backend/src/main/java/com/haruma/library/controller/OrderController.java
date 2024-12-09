@@ -1,10 +1,13 @@
 package com.haruma.library.controller;
 
+import com.haruma.library.dto.request.OrderRequest;
+import com.haruma.library.entity.Address;
 import com.haruma.library.entity.Order;
 import com.haruma.library.service.OrderService;
 import com.haruma.library.service.StatusService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,11 +30,15 @@ public class OrderController {
         this.statusService = statusService;
     }
 
-    @PostMapping
+    @PostMapping("/{userEmail}")
     @Operation(summary = "Add a new order")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> addOrder(@RequestBody Order order) {
-        var newOrder = orderService.addOrder(order);
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER')")
+    public ResponseEntity<?> addOrder(@PathVariable("userEmail") String userEmail,
+                                      @RequestBody OrderRequest order) {
+        var newOrder = orderService.addOrder(userEmail, Order.builder()
+                        .quantity(order.getQuantity())
+                        .address(Address.builder().addressName(order.getAddress().getAddressName()).build())
+                .build(), order.getBookId());
         return new ResponseEntity<>(newOrder, HttpStatus.OK);
     }
 
@@ -45,7 +52,7 @@ public class OrderController {
 
     @PutMapping("/cancel")
     @Operation(summary = "Cancel an existing order")
-    @PreAuthorize(value = "hasRole({'ROLE_ADMIN', 'ROLE_USER'})")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> cancelOrder(@RequestParam("orderId") Long orderId)  {
         var newOrder = orderService.updateOrderStatus(orderId, this.statusService.getStatusById(3));
         return new ResponseEntity<>(newOrder, HttpStatus.OK);
@@ -76,7 +83,7 @@ public class OrderController {
 
     @GetMapping("/user")
     @Operation(summary = "Get all order by user")
-    @PreAuthorize(value = "hasRole({'ROLE_ADMIN', 'ROLE_USER'})")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getOrderByUser(@RequestParam Long userId,
                                               @RequestParam(defaultValue = "0") Integer page,
                                               @RequestParam(defaultValue = "10") Integer limit) {

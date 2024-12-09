@@ -7,6 +7,7 @@ import com.haruma.library.repository.CartRepository;
 import com.haruma.library.repository.UserRepository;
 import com.haruma.library.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -75,8 +76,8 @@ public class CartServiceImplement implements CartService {
     }
 
     @Override
-    public List<Book> getAllCartItem(User user) throws Exception {
-        var currentUser = userRepository.findUserByEmail(user.getEmail());
+    public List<Book> getAllCartItem(Long userId) throws Exception {
+        var currentUser = userRepository.findById(userId);
         if (currentUser.isEmpty()) {
             throw new Exception("Không tìm thấy user");
         }

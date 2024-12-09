@@ -1,31 +1,74 @@
 package com.haruma.library.service.impl;
 
+import com.haruma.library.dto.response.BookFastResponse;
+import com.haruma.library.dto.response.OrderResponse;
+import com.haruma.library.dto.response.StatusResponse;
 import com.haruma.library.entity.Order;
 import com.haruma.library.entity.Status;
-import com.haruma.library.repository.OrderRepository;
-import com.haruma.library.repository.StatusRepository;
+import com.haruma.library.repository.*;
 import com.haruma.library.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 @Service
+@Transactional
 public class OrderServiceImplement implements OrderService {
 
     private final OrderRepository orderRepository;
 
     private final StatusRepository statusRepository;
 
+    private final UserRepository userRepository;
+
+    private final AddressRepository addressRepository;
+
+    private final BookRepository bookRepository;
+
+
     @Autowired
-    public OrderServiceImplement(OrderRepository orderRepository, StatusRepository statusRepository) {
+    public OrderServiceImplement(OrderRepository orderRepository, StatusRepository statusRepository,
+                                 UserRepository userRepository, AddressRepository addressRepository, BookRepository bookRepository) {
         this.orderRepository = orderRepository;
         this.statusRepository = statusRepository;
+        this.userRepository = userRepository;
+        this.addressRepository = addressRepository;
+        this.bookRepository = bookRepository;
     }
 
     @Override
-    public Order addOrder(Order order) {
-        order.setStatus(this.statusRepository.findById(1).orElseThrow(()->new RuntimeException("Không tìm thấy trạng thái")));
+    public Order addOrder(String userEmail, Order order, Long bookId) {
+        var status = this.statusRepository.findByStatusId(1);
+        if (status.isEmpty()) {
+            throw new RuntimeException("Không tìm thấy trạng thái");
+        }
+        var book = this.bookRepository.findById(bookId);
+        if (book.isEmpty()) {
+            throw new RuntimeException("Không tìm thấy sách");
+        }
+        var user = this.userRepository.findUserByEmail(userEmail);
+        if (user.isEmpty()) {
+            throw new RuntimeException("Không tìm thấy người dùng");
+        }
+        var newQuantity = book.get().getQuantity() - order.getQuantity();
+        if (newQuantity < 0) {
+            throw new RuntimeException("Hết hàng, không thể bán");
+        }
+        order.setStatus(status.get());
+        order.setUser(user.get());
+        var oldAddress = order.getAddress();
+        oldAddress.setUser(user.get());
+        var address = this.addressRepository.save(oldAddress);
+        order.setAddress(address);
+        order.setOrderDate(new Date());
+        order.setBook(book.get());
+        book.get().setQuantity(newQuantity);
+        order.setTotalPrice(book.get().getPrice().multiply(new BigDecimal(order.getQuantity())));
         return this.orderRepository.save(order);
     }
 
@@ -59,25 +102,43 @@ public class OrderServiceImplement implements OrderService {
     }
 
     @Override
-    public Page<Order> getAllOrderByUserId(Long id, Integer limit, Integer page) {
+    public Page<OrderResponse> getAllOrderByUserId(Long id, Integer page, Integer limit) {
         var pageable = PageRequest.of(page, limit);
-        return this.orderRepository.findByUserId(id, pageable);
+        var result = this.orderRepository.findByUserId(id, pageable);
+        return result.map(objects -> {
+            var book = new BookFastResponse(
+                    objects.getBook().getId(),
+                    objects.getBook().getTitle(),
+                    objects.getBook().getPrice()
+            );
+            var status = new StatusResponse(
+                    objects.getStatus().getStatusId(),
+                    objects.getStatus().getStatusName()
+            );
+            return new OrderResponse(
+                    objects.getOrderId(),
+                    objects.getOrderDate(),
+                    objects.getQuantity(),
+                    book,
+                    status
+            );
+        });
     }
 
     @Override
-    public Page<Order> getAllByStatusId(Integer id, Integer limit, Integer page) {
+    public Page<Order> getAllByStatusId(Integer id, Integer page, Integer limit) {
         var pageable = PageRequest.of(page, limit);
         return this.orderRepository.findByStatusId(id, pageable);
     }
 
     @Override
-    public Page<Order> getAllByAddressId(Long id, Integer limit, Integer page) {
+    public Page<Order> getAllByAddressId(Long id, Integer page, Integer limit) {
         var pageable = PageRequest.of(page, limit);
         return this.orderRepository.findByAddressId(id, pageable);
     }
 
     @Override
-    public Page<Order> getAllOrder(Integer limit, Integer page) {
+    public Page<Order> getAllOrder(Integer page, Integer limit) {
         var pageable = PageRequest.of(page, limit);
         return this.orderRepository.findAll(pageable);
     }

@@ -1,8 +1,10 @@
 package com.haruma.library.controller;
 
 import com.haruma.library.dto.request.LoginRequest;
+import com.haruma.library.dto.request.RegisterRequest;
 import com.haruma.library.dto.response.JwtAuthResponse;
 import com.haruma.library.entity.User;
+import com.haruma.library.entity.UserDetail;
 import com.haruma.library.service.AuthenticationService;
 import com.haruma.library.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,8 +31,8 @@ public class AuthController {
 
     @PostMapping("/register")
     @Operation(summary = "Regular user register an account")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-        var newUser = userService.registerUser(user.getEmail(), user.getPassword(), user.getUserDetail());
+    public ResponseEntity<User> registerUser(@RequestBody RegisterRequest user) {
+        var newUser = userService.registerUser(user.getEmail(), user.getPassword(), UserDetail.builder().name(user.getUserDetail().getName()).build());
         return new ResponseEntity<>(newUser, HttpStatus.OK);
     }
 

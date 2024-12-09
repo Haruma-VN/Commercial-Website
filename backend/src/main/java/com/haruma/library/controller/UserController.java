@@ -32,7 +32,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    @PreAuthorize(value = "hasRole({'ROLE_ADMIN', 'ROLE_USER'})")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
     @Operation(summary = "Find a specific user by their id")
     public ResponseEntity<User> findUserById(@PathVariable("userId") Long userId) {
         var user = userService.findUserById(userId);

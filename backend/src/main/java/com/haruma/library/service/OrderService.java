@@ -1,11 +1,13 @@
 package com.haruma.library.service;
 
+import com.haruma.library.dto.response.OrderResponse;
 import com.haruma.library.entity.Order;
 import com.haruma.library.entity.Status;
 import org.springframework.data.domain.Page;
 
 public interface OrderService {
-    Order addOrder(Order order);
+
+    Order addOrder(String userEmail, Order order, Long bookId);
 
     Order deleteOrderById(Long orderId);
 
@@ -13,7 +15,7 @@ public interface OrderService {
 
     Order updateOrderStatus(Long orderId, Status status);
 
-    Page<Order> getAllOrderByUserId(Long id, Integer limit, Integer page);
+    Page<OrderResponse> getAllOrderByUserId(Long id, Integer limit, Integer page);
 
     Page<Order> getAllByStatusId(Integer id, Integer limit, Integer page);
 

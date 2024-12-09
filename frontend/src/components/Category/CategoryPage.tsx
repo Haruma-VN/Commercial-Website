@@ -27,8 +27,6 @@ const CategoryPage = () => {
 				const data = (await response.json()) as any;
 				if (data.content !== undefined) {
 					setBook(data.content);
-				} else {
-					setBook(data);
 				}
 			} catch (e) {
 				setError((e as Error).message);

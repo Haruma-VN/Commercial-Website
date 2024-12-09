@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-@Table(name="order")
+@Table(name="`order`")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -28,17 +28,24 @@ public class Order {
     @Column(name="total_price")
     private BigDecimal totalPrice;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @Column(name="quantity", nullable = false)
+    private Integer quantity;
+
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, optional = false)
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, optional = false)
     @JoinColumn(name = "status_id", referencedColumnName = "status_id")
     private Status status;
 
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, optional = false)
     @JoinColumn(name = "address_id")
     private Address address;
+
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "book_id", referencedColumnName = "id", nullable = false)
+    private Book book;
 }

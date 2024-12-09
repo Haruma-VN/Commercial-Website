@@ -50,7 +50,7 @@ public class ReviewController {
 
     @PostMapping("/{bookId}")
     @Operation(summary = "Add a review to database")
-    @PreAuthorize(value = "hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
     public ResponseEntity<Review> addReview(@RequestBody Review review, @PathVariable("bookId") Long bookId) {
         var book = bookService.findBookById(bookId);
         return book.map(e -> {
@@ -62,7 +62,7 @@ public class ReviewController {
 
     @PutMapping
     @Operation(summary = "Update a review to database")
-    @PreAuthorize(value = "hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
     public ResponseEntity<Review> updateReview(@RequestBody Review review) {
         var data = reviewService.updateReview(review);
         return data.map(value -> new ResponseEntity<>(review, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.OK));
@@ -70,7 +70,7 @@ public class ReviewController {
 
     @DeleteMapping("/{reviewId}")
     @Operation(summary = "Delete a review from database")
-    @PreAuthorize(value = "hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
     public ResponseEntity<Review> deleteReviewById(@PathVariable("reviewId") Long reviewId) {
         var data = reviewService.deleteReviewById(reviewId);
         return data.map(value -> new ResponseEntity<>(data.get(), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.OK));

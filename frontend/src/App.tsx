@@ -12,6 +12,7 @@ import CartPage from './components/Cart/CartPage';
 import AdminHomePage from './components/Admin/HomePage';
 import ReviewPage from './components/Review/ReviewPage';
 import CategoryPage from './components/Category/CategoryPage';
+import OrderPage from './components/Order/OrderPage';
 
 function App() {
 	return (
@@ -25,6 +26,7 @@ function App() {
 						<Route path='/search' element={<SearchBookPage />} />
 						<Route path='/login' element={<LoginPage />} />
 						<Route path='/cart' element={<CartPage />} />
+						<Route path='/order' element={<OrderPage />} />
 						<Route path='/register' element={<RegisterPage />} />
 						<Route path='/checkout/:id' element={<BookCheckoutPage />} />
 						<Route path='/review/:id' element={<ReviewPage />} />

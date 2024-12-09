@@ -1,5 +1,6 @@
 package com.haruma.library.controller;
 
+import com.haruma.library.dto.request.CategoryRequest;
 import com.haruma.library.entity.Category;
 import com.haruma.library.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -47,9 +48,9 @@ public class CategoryController {
     @PostMapping
     @Operation(summary = "Add a category to database")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Category> addCategory(@RequestBody Category category) {
-        categoryService.addCategory(category);
-        return new ResponseEntity<>(category, HttpStatus.OK);
+    public ResponseEntity<?> addCategory(@RequestBody CategoryRequest category) {
+        var newCategory = categoryService.addCategory(Category.builder().name(category.getName()).build());
+        return new ResponseEntity<>(newCategory, HttpStatus.OK);
     }
 
     @PutMapping

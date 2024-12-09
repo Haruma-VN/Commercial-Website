@@ -1,5 +1,7 @@
 package com.haruma.library.controller;
 
+import com.haruma.library.dto.request.CartGetRequest;
+import com.haruma.library.dto.request.CartRequest;
 import com.haruma.library.entity.Book;
 import com.haruma.library.entity.Cart;
 import com.haruma.library.entity.User;
@@ -26,36 +28,35 @@ public class CartController {
         this.cartService = cartService;
     }
 
-    @PostMapping("/{userEmail}/{bookId}")
+    @PostMapping
     @Operation(summary = "Add a book to cart")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<?> addToCart(@PathVariable("userEmail") String userEmail, @PathVariable("bookId") Long bookId) throws Exception {
-        var cart = cartService.addToCart(User.builder().email(userEmail).build(), bookId);
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> addToCart(@RequestBody CartRequest cartRequest) throws Exception {
+        var cart = cartService.addToCart(User.builder().email(cartRequest.getEmail()).build(), cartRequest.getBookId());
         return new ResponseEntity<>(cart, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{userEmail}/{bookId}")
+    @DeleteMapping
     @Operation(summary = "Remove a book from cart")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<?> removeFromCart(@PathVariable("userEmail") String userEmail, @PathVariable("bookId") Long bookId) throws Exception {
-        var cart = cartService.removeFromCart(User.builder().email(userEmail).build(), bookId);
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> removeFromCart(@RequestBody CartRequest cartRequest) throws Exception {
+        var cart = cartService.removeFromCart(User.builder().email(cartRequest.getEmail()).build(), cartRequest.getBookId());
         return new ResponseEntity<>(cart, HttpStatus.OK);
     }
 
-    @GetMapping("/{userEmail}")
+    @GetMapping
     @Operation(summary = "Get all item from a cart")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<List<Book>> getAllCartItem(@PathVariable("userEmail") String userEmail) throws Exception {
-        return new ResponseEntity<>(cartService.getAllCartItem(User.builder()
-                .email(userEmail).build()), HttpStatus.OK);
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
+    public ResponseEntity<List<Book>> getAllCartItem(@RequestParam Long userId) throws Exception {
+        return new ResponseEntity<>(cartService.getAllCartItem(userId), HttpStatus.OK);
     }
 
-    @PostMapping("/include/{userEmail}/{bookId}")
+    @PostMapping("/include")
     @Operation(summary = "Check if a book is in the cart")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<Boolean> containCartItemInCart(@PathVariable("userEmail") String userEmail, @PathVariable("bookId") Long bookId) throws Exception {
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Boolean> containCartItemInCart(@RequestBody CartRequest cartRequest) throws Exception {
         return new ResponseEntity<>(cartService.containCartItemInCart(User.builder()
-                .email(userEmail).build(), bookId), HttpStatus.OK);
+                .email(cartRequest.getEmail()).build(), cartRequest.getBookId()), HttpStatus.OK);
     }
 
 }
