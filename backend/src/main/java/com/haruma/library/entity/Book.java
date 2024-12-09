@@ -50,10 +50,6 @@ public class Book {
     @JsonIgnore
     private List<Review> reviewList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Checkout> checkouts = new ArrayList<>();
-
     @OneToMany(mappedBy = "book", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JsonIgnore
     private List<CartItem> cartItems = new ArrayList<>();
