@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 import { Link, useNavigate } from 'react-router-dom';
 import Spinner from '../Spinner/Spinner';
-import { setCookie } from 'typescript-cookie';
+import { getCookie, setCookie } from 'typescript-cookie';
 import AuthenticationResponse from '../../model/AuthenticationResponse';
 
 const LoginPage = () => {
@@ -34,6 +34,7 @@ const LoginPage = () => {
 				sameSite: 'strict',
 				expires: 7,
 			});
+			getCookie('accessToken');
 			const user = authResponse.user;
 			setUser(user);
 			if (user.roles.find((e) => e.roleName === 'ROLE_ADMIN') !== undefined) {

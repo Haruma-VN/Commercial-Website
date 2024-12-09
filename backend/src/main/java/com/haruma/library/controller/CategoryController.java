@@ -31,6 +31,7 @@ public class CategoryController {
     }
 
     @GetMapping("/count")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Count all category from database")
     public ResponseEntity<Long> countCategory() {
         return new ResponseEntity<>(categoryService.count(), HttpStatus.OK);
@@ -45,6 +46,7 @@ public class CategoryController {
 
     @PostMapping
     @Operation(summary = "Add a category to database")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Category> addCategory(@RequestBody Category category) {
         categoryService.addCategory(category);
         return new ResponseEntity<>(category, HttpStatus.OK);
@@ -52,6 +54,7 @@ public class CategoryController {
 
     @PutMapping
     @Operation(summary = "Update a category to database")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Category> updateCategory(@RequestBody Category category) {
         var data = categoryService.updateCategory(category);
         return data.map(value -> new ResponseEntity<>(category, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.OK));
@@ -59,6 +62,7 @@ public class CategoryController {
 
     @DeleteMapping("/{categoryId}")
     @Operation(summary = "Delete a category to database")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Category> deleteCategoryById(@PathVariable("categoryId") Long categoryId) {
         var data = categoryService.deleteCategoryById(categoryId);
         return data.map(value -> new ResponseEntity<>(data.get(), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.OK));

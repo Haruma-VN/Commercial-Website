@@ -8,6 +8,8 @@ import com.haruma.library.repository.RoleRepository;
 import com.haruma.library.repository.UserRepository;
 import com.haruma.library.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.haruma.library.entity.User;
@@ -55,8 +57,8 @@ public class UserServiceImplement implements UserService {
 
 
     @Override
-    public List<User> findAllUser() {
-        return userRepository.findAll();
+    public Page<User> findAllUser(Integer page, Integer limit) {
+        return userRepository.findAll(PageRequest.of(page, limit));
     }
 
     @Override

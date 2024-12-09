@@ -4,6 +4,7 @@ import Book from '../../model/Book';
 import Spinner from '../Spinner/Spinner';
 import Exception from '../Exception/Exception';
 import { Link, useNavigate } from 'react-router-dom';
+import { getCookie } from 'typescript-cookie';
 
 const CartPage = () => {
 	const { user } = useContext(UserContext)!;
@@ -17,6 +18,9 @@ const CartPage = () => {
 		const fetchBooks = async () => {
 			const response = await fetch(bookUrl, {
 				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${getCookie('accessToken')}`,
+				},
 			});
 			if (!response.ok) {
 				throw new Error('Có lỗi xảy ra khi lấy danh sách giỏ hàng');
@@ -34,6 +38,9 @@ const CartPage = () => {
 		const deleteBook = async () => {
 			const response = await fetch(bookUrl, {
 				method: 'DELETE',
+				headers: {
+					Authorization: `Bearer ${getCookie('accessToken')}`,
+				},
 			});
 			if (!response.ok) {
 				throw new Error('Có lỗi xảy ra khi lấy xóa giỏ hàng');

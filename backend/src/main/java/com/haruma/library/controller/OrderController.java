@@ -8,11 +8,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/order")
 @Tag(name="Order", description = "Order API")
 public class OrderController {
 
@@ -26,57 +27,74 @@ public class OrderController {
         this.statusService = statusService;
     }
 
-    @PostMapping("/order")
+    @PostMapping
     @Operation(summary = "Add a new order")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> addOrder(@RequestBody Order order) {
         var newOrder = orderService.addOrder(order);
         return new ResponseEntity<>(newOrder, HttpStatus.OK);
     }
 
-    @PutMapping("/order")
+    @PutMapping
     @Operation(summary = "Update an existing order")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> updateOrder(@RequestBody Order order)  {
         var newOrder = orderService.updateOrder(order);
         return new ResponseEntity<>(newOrder, HttpStatus.OK);
     }
 
-    @PutMapping("/order/cancel")
+    @PutMapping("/cancel")
     @Operation(summary = "Cancel an existing order")
+    @PreAuthorize(value = "hasRole({'ROLE_ADMIN', 'ROLE_USER'})")
     public ResponseEntity<?> cancelOrder(@RequestParam("orderId") Long orderId)  {
         var newOrder = orderService.updateOrderStatus(orderId, this.statusService.getStatusById(3));
         return new ResponseEntity<>(newOrder, HttpStatus.OK);
     }
 
-    @PutMapping("/order/approve")
+    @PutMapping("/approve")
     @Operation(summary = "Approve an existing order")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> approveOrder(@RequestParam("orderId") Long orderId)  {
         var newOrder = orderService.updateOrderStatus(orderId, this.statusService.getStatusById(2));
         return new ResponseEntity<>(newOrder, HttpStatus.OK);
     }
 
-    @DeleteMapping("/order/{orderId}")
+    @DeleteMapping("/{orderId}")
     @Operation(summary = "Delete an existing order")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> deleteOrder(@PathVariable("orderId") Long orderId) {
         return new ResponseEntity<>(orderService.deleteOrderById(orderId), HttpStatus.OK);
     }
 
-    @GetMapping("/order")
+    @GetMapping
     @Operation(summary = "Get all order")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getAllOrder(@RequestParam(defaultValue = "0") Integer page,
                                          @RequestParam(defaultValue = "10") Integer limit) {
         return new ResponseEntity<>(orderService.getAllOrder(page, limit), HttpStatus.OK);
     }
 
-    @GetMapping("/order/status")
+    @GetMapping("/user")
+    @Operation(summary = "Get all order by user")
+    @PreAuthorize(value = "hasRole({'ROLE_ADMIN', 'ROLE_USER'})")
+    public ResponseEntity<?> getOrderByUser(@RequestParam Long userId,
+                                              @RequestParam(defaultValue = "0") Integer page,
+                                              @RequestParam(defaultValue = "10") Integer limit) {
+        return new ResponseEntity<>(orderService.getAllOrderByUserId(userId, page, limit), HttpStatus.OK);
+    }
+
+    @GetMapping("/status")
     @Operation(summary = "Get all order by status")
-    public ResponseEntity<?> getOrderByStatus(@RequestParam() Integer statusId,
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> getOrderByStatus(@RequestParam Integer statusId,
                                          @RequestParam(defaultValue = "0") Integer page,
                                          @RequestParam(defaultValue = "10") Integer limit) {
         return new ResponseEntity<>(orderService.getAllByStatusId(statusId, page, limit), HttpStatus.OK);
     }
 
-    @GetMapping("/order/address")
+    @GetMapping("/address")
     @Operation(summary = "Get all order by address")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getOrderByAddress(@RequestParam() Long addressId,
                                               @RequestParam(defaultValue = "0") Integer page,
                                               @RequestParam(defaultValue = "10") Integer limit) {

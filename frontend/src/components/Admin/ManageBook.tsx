@@ -21,7 +21,7 @@ const ManageBook = () => {
 	const [style, setStyle] = useState<Modal.Styles | undefined>();
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [booksPerPage] = useState<number>(5);
-	const [totalBooks, setTotalBooks] = useState<number>(0); // Track total number of books
+	const [totalBooks, setTotalBooks] = useState<number>(0);
 
 	const showToast = () => {
 		setToggleBehavior(true);

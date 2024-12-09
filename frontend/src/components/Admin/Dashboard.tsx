@@ -5,6 +5,7 @@ import Exception from '../Exception/Exception';
 import StackedBarChart from './StackedBarChart';
 import Book from '../../model/Book';
 import Spinner from '../Spinner/Spinner';
+import { getCookie } from 'typescript-cookie';
 
 const Dashboard: React.FC = () => {
 	const [userCount, setUserCount] = useState<number>(0);
@@ -21,8 +22,11 @@ const Dashboard: React.FC = () => {
 
 	useEffect(() => {
 		const fetchAdmin = async () => {
-			const response = await fetch('http://localhost:3308/api/v1/user/count/admin', {
+			const response = await fetch('http://localhost:3308/api/v1/user/count/ROLE_ADMIN', {
 				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${getCookie('accessToken')}`,
+				},
 			});
 			if (!response.ok) {
 				throw new Error('Không thể lấy dữ liệu admin');
@@ -37,7 +41,14 @@ const Dashboard: React.FC = () => {
 
 	useEffect(() => {
 		const fetchBooks = async () => {
-			const response = await fetch(`http://localhost:3308/api/v1/book?page=${page}&limit=10`);
+			const response = await fetch(
+				`http://localhost:3308/api/v1/book?page=${page}&limit=10`,
+				{
+					headers: {
+						Authorization: `Bearer ${getCookie('accessToken')}`,
+					},
+				},
+			);
 			if (!response.ok) {
 				throw new Error('Không thể lấy dữ liệu sách');
 			}
@@ -59,6 +70,9 @@ const Dashboard: React.FC = () => {
 		const fetchCategory = async () => {
 			const response = await fetch('http://localhost:3308/api/v1/category/count', {
 				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${getCookie('accessToken')}`,
+				},
 			});
 			if (!response.ok) {
 				throw new Error('Không thể lấy dữ liệu danh mục');
@@ -73,8 +87,11 @@ const Dashboard: React.FC = () => {
 
 	useEffect(() => {
 		const fetchUser = async () => {
-			const response = await fetch('http://localhost:3308/api/v1/user/count/user', {
+			const response = await fetch('http://localhost:3308/api/v1/user/count/ROLE_USER', {
 				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${getCookie('accessToken')}`,
+				},
 			});
 			if (!response.ok) {
 				throw new Error('Không thể lấy dữ liệu người dùng');

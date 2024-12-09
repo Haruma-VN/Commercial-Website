@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import User from '../../model/User';
 import Spinner from '../Spinner/Spinner';
 import Exception from '../Exception/Exception';
@@ -7,6 +7,7 @@ import Toast from '../Toast/Toast';
 import { changeDataStyle, deleteDataStyle } from './ModalConfiguration';
 import ExcelExport from './ExcelExport';
 import './Manage.css';
+import { getCookie } from 'typescript-cookie';
 
 const ManageUser = () => {
 	const [users, setUsers] = useState<Array<User>>([]);
@@ -18,6 +19,9 @@ const ManageUser = () => {
 	const [currentUser, setCurrentUser] = useState<User | null>(null);
 	const [style, setStyle] = useState<Modal.Styles | undefined>();
 	const [password, setPassword] = useState<string>('');
+	const [currentPage, setCurrentPage] = useState<number>(1);
+	const [userPerPage] = useState<number>(5);
+	const [totalUsers, setTotalUsers] = useState<number>(0);
 
 	const showToast = () => {
 		setToggleBehavior(true);
@@ -26,23 +30,40 @@ const ManageUser = () => {
 		}, 3000);
 	};
 
-	useEffect(() => {
-		const fetchUsers = async () => {
-			const response = await fetch('http://localhost:3308/api/v1/user');
+	const fetchUsers = useCallback(async () => {
+		try {
+			const response = await fetch(
+				`http://localhost:3308/api/v1/user?page=${currentPage - 1}&limit=${userPerPage}`,
+				{
+					headers: {
+						Authorization: `Bearer ${getCookie('accessToken')}`,
+					},
+				},
+			);
+
 			if (!response.ok) {
 				throw new Error('Không thể lấy danh sách người dùng');
 			}
-			setUsers(await response.json());
-		};
-		fetchUsers()
-			.catch((e) => setError(e.message))
-			.finally(() => setLoading(false));
-	}, []);
+
+			const data = await response.json();
+			setUsers(data.content as Array<User>);
+			setTotalUsers(data.totalElements);
+		} catch (error: any) {
+			setError(error.message);
+		} finally {
+			setLoading(false);
+		}
+	}, [currentPage, userPerPage]);
+
+	useEffect(() => {
+		setLoading(true);
+		fetchUsers();
+	}, [fetchUsers]);
 
 	const addUser = async (user: User) => {
 		setLoading(true);
 		const fetchUsers = async () => {
-			const response = await fetch('http://localhost:3308/api/v1/user/register', {
+			const response = await fetch('http://localhost:3308/api/v1/auth/register', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ ...user, password } as User),
@@ -69,7 +90,10 @@ const ManageUser = () => {
 		const fetchUsers = async () => {
 			const response = await fetch('http://localhost:3308/api/v1/user', {
 				method: 'PUT',
-				headers: { 'Content-Type': 'application/json' },
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${getCookie('accessToken')}`,
+				},
 				body: JSON.stringify({ ...user, password: password || user.password }),
 			});
 			if (!response.ok) {
@@ -94,6 +118,9 @@ const ManageUser = () => {
 		const fetchUsers = async () => {
 			const response = await fetch(`http://localhost:3308/api/v1/user/${user.id}`, {
 				method: 'DELETE',
+				headers: {
+					Authorization: `Bearer ${getCookie('accessToken')}`,
+				},
 			});
 			if (!response.ok) {
 				throw new Error('Không thể xoá người dùng');
@@ -159,6 +186,8 @@ const ManageUser = () => {
 	if (error) {
 		return <Exception message={error} />;
 	}
+
+	const totalPages = Math.ceil(totalUsers / userPerPage);
 
 	return (
 		<div className='container'>
@@ -301,6 +330,28 @@ const ManageUser = () => {
 					))}
 				</tbody>
 			</table>
+			<div className='pagination'>
+				<button
+					className='btn btn-primary'
+					onClick={() => setCurrentPage(currentPage > 1 ? currentPage - 1 : 1)}
+					disabled={currentPage === 1}
+				>
+					Quay lại
+				</button>
+				<span
+					className='mt-2 mb-2'
+					style={{ marginLeft: 10, marginRight: 10 }}
+				>{`Trang ${currentPage} trên ${totalPages}`}</span>
+				<button
+					className='btn btn-primary'
+					onClick={() =>
+						setCurrentPage(currentPage < totalPages ? currentPage + 1 : totalPages)
+					}
+					disabled={currentPage === totalPages}
+				>
+					Trang kế
+				</button>
+			</div>
 		</div>
 	);
 };
