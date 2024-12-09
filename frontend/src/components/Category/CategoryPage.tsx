@@ -19,9 +19,6 @@ const CategoryPage = () => {
 			try {
 				const response = await fetch(bookUrl, {
 					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json',
-					},
 				});
 
 				if (!response.ok) {

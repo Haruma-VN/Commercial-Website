@@ -3,8 +3,12 @@ package com.haruma.library.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -15,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Builder
-public class User {
+public class User implements UserDetails {
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -57,4 +61,18 @@ public class User {
     private List<Address> addresses = new ArrayList<>();
 
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<SimpleGrantedAuthority> role = new ArrayList<>();
+        for (Role x: roles){
+            role.add(new SimpleGrantedAuthority(x.getRoleName()));
+        }
+        return role;
+    }
+
+    @Override
+    @JsonIgnore
+    public String getUsername() {
+        return this.getEmail();
+    }
 }

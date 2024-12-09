@@ -30,9 +30,6 @@ const BookCheckoutPage = () => {
 			const bookUrl: string = `http://localhost:3308/api/v1/book/${id}`;
 			const response = await fetch(bookUrl, {
 				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-				},
 			});
 			// Exception is found when fetching
 			if (!response.ok) {
@@ -57,9 +54,6 @@ const BookCheckoutPage = () => {
 			const reviewUrl: string = `http://localhost:3308/api/v1/review/search/${id}`;
 			const response = await fetch(reviewUrl, {
 				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-				},
 			});
 			// Exception is found when fetching
 			if (!response.ok) {

@@ -63,21 +63,4 @@ public class UserController {
         return user.map(e -> new ResponseEntity<>(e, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/user/register")
-    @Operation(summary = "Regular user register an account")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-        var newUser = userService.registerUser(user.getEmail(), user.getPassword(), user.getUserDetail());
-        return new ResponseEntity<>(newUser, HttpStatus.OK);
-    }
-
-    @PostMapping("/user/login")
-    @Operation(summary = "Regular user login")
-    public ResponseEntity<User> loginUser(@RequestBody User user) throws Exception {
-        var currentUser = userService.loginUser(user.getEmail(), user.getPassword());
-        if (currentUser == null) {
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-        }
-        return new ResponseEntity<>(currentUser, HttpStatus.OK);
-    }
-
 }

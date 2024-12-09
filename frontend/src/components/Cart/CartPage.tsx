@@ -17,9 +17,6 @@ const CartPage = () => {
 		const fetchBooks = async () => {
 			const response = await fetch(bookUrl, {
 				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-				},
 			});
 			if (!response.ok) {
 				throw new Error('Có lỗi xảy ra khi lấy danh sách giỏ hàng');

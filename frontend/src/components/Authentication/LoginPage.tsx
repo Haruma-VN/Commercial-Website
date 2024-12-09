@@ -1,8 +1,9 @@
 import { useContext, useState } from 'react';
-import User from '../../model/User';
 import { UserContext } from '../../context/UserContext';
 import { Link, useNavigate } from 'react-router-dom';
 import Spinner from '../Spinner/Spinner';
+import { setCookie } from 'typescript-cookie';
+import AuthenticationResponse from '../../model/AuthenticationResponse';
 
 const LoginPage = () => {
 	const [email, setEmail] = useState<string>('');
@@ -15,7 +16,7 @@ const LoginPage = () => {
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		setIsLoading(true);
 		e.preventDefault();
-		const loginUrl: string = `http://localhost:3308/api/v1/user/login`;
+		const loginUrl: string = `http://localhost:3308/api/v1/auth/login`;
 		const login = async () => {
 			const response = await fetch(loginUrl, {
 				method: 'POST',
@@ -27,7 +28,13 @@ const LoginPage = () => {
 			if (!(response.status == 200)) {
 				throw new Error('Có lỗi xảy ra trong quá trình xử lý gửi request đến server');
 			}
-			const user = (await response.json()) as User;
+			const authResponse = (await response.json()) as AuthenticationResponse;
+			setCookie('accessToken', authResponse.accessToken, {
+				secure: true,
+				sameSite: 'strict',
+				expires: 7,
+			});
+			const user = authResponse.user;
 			setUser(user);
 			if (user.roles.find((e) => e.roleName === 'ROLE_ADMIN') !== undefined) {
 				destination = '/admin';

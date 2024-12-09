@@ -15,9 +15,6 @@ const Carousel = () => {
 			const bookUrl: string = 'http://localhost:3308/api/v1/book?page=1&limit=10';
 			const response = await fetch(bookUrl, {
 				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-				},
 			});
 			// Exception is found when fetching
 			if (!response.ok) {

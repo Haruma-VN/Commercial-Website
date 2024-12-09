@@ -40,7 +40,6 @@ const Navbar = () => {
 	if (error !== null) {
 		return <Exception message={error} />;
 	}
-
 	return (
 		<nav className='navbar navbar-expand-lg navbar-dark main-color py-3 shadow-sm'>
 			<div className='container-fluid'>
@@ -94,7 +93,8 @@ const Navbar = () => {
 								))}
 							</ul>
 						</li>
-						{user && user.userDetail.role === 'admin' ? (
+						{user &&
+						user.roles.find((e) => e.roleName === 'ROLE_ADMIN') !== undefined ? (
 							<li className='nav-item'>
 								<NavLink className='nav-link' to='/admin'>
 									Admin

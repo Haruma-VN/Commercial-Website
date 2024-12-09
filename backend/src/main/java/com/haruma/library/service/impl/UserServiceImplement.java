@@ -53,18 +53,6 @@ public class UserServiceImplement implements UserService {
         return userRepository.save(savedUser);
     }
 
-    @Override
-    public User loginUser(String email, String rawPassword) throws Exception {
-        var user = userRepository.findUserByEmail(email);
-        if (user.isEmpty()) {
-            throw new Exception("Không tìm thấy người dùng");
-        }
-        if (!passwordEncoder.matches(rawPassword, user.get().getPassword())) {
-            throw new Exception("Mật khẩu không hợp lệ");
-        }
-        return user.get();
-    }
-
 
     @Override
     public List<User> findAllUser() {
