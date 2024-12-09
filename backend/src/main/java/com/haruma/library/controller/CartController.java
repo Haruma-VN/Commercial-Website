@@ -25,25 +25,25 @@ public class CartController {
     }
 
     @PostMapping("/cart/{userEmail}/{bookId}")
-    public ResponseEntity<Cart> addToCart(@PathVariable("userEmail") String userEmail, @PathVariable("bookId") Long bookId) {
+    public ResponseEntity<Cart> addToCart(@PathVariable("userEmail") String userEmail, @PathVariable("bookId") Long bookId) throws Exception {
         var cart = cartService.addToCart(User.builder().email(userEmail).build(), bookId);
         return new ResponseEntity<>(cart, HttpStatus.OK);
     }
 
     @DeleteMapping("/cart/{userEmail}/{bookId}")
-    public ResponseEntity<Cart> removeFromCart(@PathVariable("userEmail") String userEmail, @PathVariable("bookId") Long bookId) {
+    public ResponseEntity<Cart> removeFromCart(@PathVariable("userEmail") String userEmail, @PathVariable("bookId") Long bookId) throws Exception {
         var cart = cartService.removeFromCart(User.builder().email(userEmail).build(), bookId);
         return new ResponseEntity<>(cart, HttpStatus.OK);
     }
 
     @GetMapping("/cart/{userEmail}")
-    public ResponseEntity<List<Book>> getAllCartItem(@PathVariable("userEmail") String userEmail) {
+    public ResponseEntity<List<Book>> getAllCartItem(@PathVariable("userEmail") String userEmail) throws Exception {
         return new ResponseEntity<>(cartService.getAllCartItem(User.builder()
                 .email(userEmail).build()), HttpStatus.OK);
     }
 
     @PostMapping("/cart/include/{userEmail}/{bookId}")
-    public ResponseEntity<Boolean> containCartItemInCart(@PathVariable("userEmail") String userEmail, @PathVariable("bookId") Long bookId) {
+    public ResponseEntity<Boolean> containCartItemInCart(@PathVariable("userEmail") String userEmail, @PathVariable("bookId") Long bookId) throws Exception {
         return new ResponseEntity<>(cartService.containCartItemInCart(User.builder()
                 .email(userEmail).build(), bookId), HttpStatus.OK);
     }

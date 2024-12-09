@@ -1,7 +1,8 @@
-package com.haruma.library.service;
+package com.haruma.library.service.impl;
 
 import com.haruma.library.entity.Category;
 import com.haruma.library.repository.CategoryRepository;
+import com.haruma.library.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

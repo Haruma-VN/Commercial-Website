@@ -72,7 +72,7 @@ public class UserController {
 
     @PostMapping("/user/login")
     @Operation(summary = "Regular user login")
-    public ResponseEntity<User> loginUser(@RequestBody User user) {
+    public ResponseEntity<User> loginUser(@RequestBody User user) throws Exception {
         var currentUser = userService.loginUser(user.getEmail(), user.getPassword());
         if (currentUser == null) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);

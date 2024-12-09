@@ -28,9 +28,4 @@ public class Category {
     @OneToMany(mappedBy = "category", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JsonIgnore
     private List<Book> books = new ArrayList<>();
-
-    public void addBook(Book book) {
-        books.add(book);
-        book.setCategory(this);
-    }
 }

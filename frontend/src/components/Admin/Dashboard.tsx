@@ -157,7 +157,7 @@ const Dashboard: React.FC = () => {
 							<h5 className='card-title mb-4'>Quản lý Sách</h5>
 							<StackedBarChart
 								name={books.map((e) => e.title)}
-								data={books.map((e) => [e.copies, e.copiesAvailable])}
+								data={books.map((e) => [e.quantity, e.price])}
 							/>
 						</div>
 					</div>

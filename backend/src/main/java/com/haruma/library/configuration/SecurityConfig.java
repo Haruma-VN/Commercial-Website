@@ -1,6 +1,5 @@
 package com.haruma.library.configuration;
 
-import com.haruma.library.utility.Sha256PasswordEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,7 +23,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new Sha256PasswordEncoder();
+        return new BCryptPasswordEncoder();
     }
 
 }

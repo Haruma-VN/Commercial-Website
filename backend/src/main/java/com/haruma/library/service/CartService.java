@@ -11,12 +11,12 @@ import java.util.List;
 @Service
 public interface CartService {
 
-    Cart addToCart(User user, Long bookId);
+    Cart addToCart(User user, Long bookId) throws Exception;
 
-    Cart removeFromCart(User user, Long bookId);
+    Cart removeFromCart(User user, Long bookId) throws Exception;
 
-    List<Book> getAllCartItem(User user);
+    List<Book> getAllCartItem(User user) throws Exception;
 
-    Boolean containCartItemInCart(User user, Long bookId);
+    Boolean containCartItemInCart(User user, Long bookId) throws Exception;
 
 }

@@ -6,13 +6,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "select * from users u where u.email = :email", nativeQuery = true)
-    User findUserByEmail(@Param("email") String email);
+    Optional<User> findUserByEmail(@Param("email") String email);
 
-    @Query(value="select count(*) from users as u inner join user_detail as ud on u.id = ud.user_id where ud.role = :role", nativeQuery = true)
+    @Query(value="select count(*) from users as u inner join user_roles as ur on u.id = ur.id inner join role on role.role_id = ur.role_id where role.role_name = :role", nativeQuery = true)
     Long countUserByRole(@Param("role") String role);
 
 }

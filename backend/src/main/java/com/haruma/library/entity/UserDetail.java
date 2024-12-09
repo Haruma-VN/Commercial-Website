@@ -21,9 +21,6 @@ public class UserDetail {
     @Column(name="name", nullable = false)
     private String name;
 
-    @Column(name="role", nullable = false)
-    private String role;
-
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "user_id")

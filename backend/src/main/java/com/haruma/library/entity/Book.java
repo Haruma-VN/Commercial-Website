@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,11 +32,11 @@ public class Book {
     @Column(name="description", nullable = false)
     private String description;
 
-    @Column(name="copies", nullable = false)
-    private Integer copies;
+    @Column(name="quantity", nullable = false)
+    private Integer quantity;
 
-    @Column(name="copies_available", nullable = false)
-    private Integer copiesAvailable;
+    @Column(name="price", nullable = false)
+    private BigDecimal price;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "category_id")

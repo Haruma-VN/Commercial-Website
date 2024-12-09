@@ -1,7 +1,8 @@
-package com.haruma.library.service;
+package com.haruma.library.service.impl;
 
 import com.haruma.library.entity.Checkout;
 import com.haruma.library.repository.CheckoutRepository;
+import com.haruma.library.service.CheckoutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

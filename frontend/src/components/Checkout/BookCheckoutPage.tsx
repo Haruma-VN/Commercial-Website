@@ -73,7 +73,6 @@ const BookCheckoutPage = () => {
 				const star = Math.round(review.reduce((a, b) => a + b.rating, 0) / review.length);
 				setTotalStar(star);
 			}
-			console.log(review);
 			setReview(review);
 		};
 		fetchReview()

@@ -10,7 +10,7 @@ public interface UserService {
 
     User registerUser(String email, String rawPassword, UserDetail userDetail);
 
-    User loginUser(String email, String rawPassword);
+    User loginUser(String email, String rawPassword) throws Exception;
     
     List<User> findAllUser();
 

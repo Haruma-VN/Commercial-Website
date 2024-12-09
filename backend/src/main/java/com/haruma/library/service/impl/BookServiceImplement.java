@@ -1,19 +1,21 @@
-package com.haruma.library.service;
+package com.haruma.library.service.impl;
 
 import com.haruma.library.entity.Book;
 import com.haruma.library.repository.BookRepository;
+import com.haruma.library.repository.RoleRepository;
+import com.haruma.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class BookServiceImplement implements BookService {
 
     private final BookRepository bookRepository;
+
 
     @Autowired
     public BookServiceImplement(BookRepository bookRepository) {
@@ -44,8 +46,8 @@ public class BookServiceImplement implements BookService {
             currentBook.setTitle(book.getTitle());
             currentBook.setAuthor(book.getAuthor());
             currentBook.setDescription(book.getDescription());
-            currentBook.setCopies(book.getCopies());
-            currentBook.setCopiesAvailable(book.getCopiesAvailable());
+            currentBook.setQuantity(book.getQuantity());
+            currentBook.setPrice(book.getPrice());
             currentBook.setImage(book.getImage());
             bookRepository.save(currentBook);
             return Optional.of(currentBook);

@@ -1,7 +1,8 @@
-package com.haruma.library.service;
+package com.haruma.library.service.impl;
 
 import com.haruma.library.entity.Review;
 import com.haruma.library.repository.ReviewRepository;
+import com.haruma.library.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
