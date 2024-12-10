@@ -226,7 +226,7 @@ const Dashboard: React.FC = () => {
 					</div>
 				</div>
 			</div>
-			<div className='row'>
+			<div className='row mb-4'>
 				<div className='col-md-12'>
 					<div className='card shadow-sm'>
 						<div className='card-body'>

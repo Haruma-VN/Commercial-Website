@@ -6,6 +6,7 @@ import './LatestReview.css';
 import { UserContext } from '../../context/UserContext';
 import Star from '../Review/Star';
 import StarBlank from '../Review/StarBlank';
+import { getCookie } from 'typescript-cookie';
 
 const LatestReview: React.FC<{
 	review: Array<Review>;
@@ -33,6 +34,7 @@ const LatestReview: React.FC<{
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
+					Authorization: `Bearer ${getCookie('accessToken')}`,
 				},
 				body: JSON.stringify(data),
 			});

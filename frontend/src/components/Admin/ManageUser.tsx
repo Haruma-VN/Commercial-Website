@@ -66,7 +66,14 @@ const ManageUser = () => {
 			const response = await fetch('http://localhost:3308/api/v1/auth/register', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ ...user, password } as User),
+				body: JSON.stringify({
+					...user,
+					password,
+					userDetail: {
+						name: '',
+						phoneNumber: '0123456789',
+					},
+				} as User),
 			});
 			if (!response.ok) {
 				throw new Error('Không thể thêm người dùng');

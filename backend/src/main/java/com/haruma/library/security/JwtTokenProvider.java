@@ -13,24 +13,21 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    private String jwtSecret = "652a0929b16344ce530df4882b67d03c193e09e8317ed780fbefe51dbf47cdbd";
-
-    private long jwtExpirationDate = 604800000;
-
     public String generateToken(UserDetails userDetails){
         var username = userDetails.getUsername();
         var currentDate = new Date();
-        var expireDate = new Date(currentDate.getTime() + jwtExpirationDate*24);
-        var token = Jwts.builder()
+        var jwtExpirationDate = 604800000L;
+        var expireDate = new Date(currentDate.getTime() + jwtExpirationDate *24);
+        return Jwts.builder()
                 .subject(username)
                 .issuedAt(new Date())
                 .expiration(expireDate)
                 .signWith(key())
                 .compact();
-        return token;
     }
 
     private SecretKey key(){
+        String jwtSecret = "652a0929b16344ce530df4882b67d03c193e09e8317ed780fbefe51dbf47cdbd";
         Assert.notNull(jwtSecret, "Khóa không được null");
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
