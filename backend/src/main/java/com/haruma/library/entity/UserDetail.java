@@ -21,6 +21,9 @@ public class UserDetail {
     @Column(name="name", nullable = false)
     private String name;
 
+    @Column(name="phone_number", nullable = false)
+    private String phoneNumber;
+
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "user_id")

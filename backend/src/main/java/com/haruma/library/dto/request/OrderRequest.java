@@ -8,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class OrderRequest {
+    private String email;
     private AddressRequest address;
     private Long bookId;
     private Integer quantity;

@@ -1,0 +1,19 @@
+.custom-tooltip {
+	background-color: #fff;
+	border-radius: 8px;
+	padding: 15px;
+	box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+	border: 1px solid #ddd;
+	max-width: 250px;
+	font-family: Arial, sans-serif;
+	font-size: 14px;
+	color: #333;
+}
+
+.custom-tooltip p {
+	margin: 5px 0;
+}
+
+.custom-tooltip strong {
+	color: #444;
+}

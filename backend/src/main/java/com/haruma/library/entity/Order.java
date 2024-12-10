@@ -36,14 +36,15 @@ public class Order {
     @JsonIgnore
     private User user;
 
-    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, optional = false)
-    @JoinColumn(name = "status_id", referencedColumnName = "status_id")
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, optional = false)
+    @JoinColumn(name = "status_id", referencedColumnName = "status_id", nullable = false)
     private Status status;
 
 
-    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, optional = false)
-    @JoinColumn(name = "address_id")
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, optional = false)
+    @JoinColumn(name = "address_id", referencedColumnName = "address_id", nullable = false)
     private Address address;
+
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "book_id", referencedColumnName = "id", nullable = false)

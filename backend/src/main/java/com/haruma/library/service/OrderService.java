@@ -1,9 +1,13 @@
 package com.haruma.library.service;
 
 import com.haruma.library.dto.response.OrderResponse;
+import com.haruma.library.dto.response.OrderStatusStatistic;
+import com.haruma.library.dto.response.RevenueByDate;
 import com.haruma.library.entity.Order;
 import com.haruma.library.entity.Status;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 public interface OrderService {
 
@@ -22,4 +26,8 @@ public interface OrderService {
     Page<Order> getAllByAddressId(Long id, Integer limit, Integer page);
 
     Page<Order> getAllOrder(Integer limit, Integer page);
+
+    List<OrderStatusStatistic> getOrdersByStatus();
+
+    List<RevenueByDate> getRevenueByDate();
 }

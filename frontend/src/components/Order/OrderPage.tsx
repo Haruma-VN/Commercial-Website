@@ -6,12 +6,15 @@ import Spinner from '../Spinner/Spinner';
 import Order from '../../model/Order';
 import { getCookie } from 'typescript-cookie';
 import { Link } from 'react-router-dom';
+import Toast from '../Toast/Toast';
 
 const OrderPage = () => {
 	const { user } = useContext(UserContext)!;
 	const [isLoading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
 	const [orders, setOrders] = useState<Array<Order>>([]);
+	const [snackbar, setSnackbar] = useState<[string, 'danger' | 'info' | 'success']>(['', 'info']);
+	const [toggleSnackbar, setToggleBehavior] = useState<boolean>(false);
 	useEffect(() => {
 		if (user === null) return;
 		const fetchOrders = async () => {
@@ -62,12 +65,20 @@ const OrderPage = () => {
 		};
 		deleteOrder()
 			.then(() => setOrders([...orders.filter((e) => e.orderId !== id)]))
+			.then(() => setSnackbar(['Xóa thành công', 'success']))
+			.then(() => setToggleBehavior(true))
 			.catch((e) => setError(e.message))
 			.finally(() => setLoading(false));
 		return;
 	};
 	return (
 		<div className='container mt-4'>
+			<Toast
+				onClose={() => setToggleBehavior(false)}
+				isVisible={toggleSnackbar}
+				message={snackbar[0]}
+				bgColor={snackbar[1]}
+			/>
 			<h2 className='mb-4'>Danh sách đơn hàng</h2>
 			<Table striped bordered hover>
 				<thead>

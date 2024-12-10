@@ -32,7 +32,9 @@ public class AuthController {
     @PostMapping("/register")
     @Operation(summary = "Regular user register an account")
     public ResponseEntity<User> registerUser(@RequestBody RegisterRequest user) {
-        var newUser = userService.registerUser(user.getEmail(), user.getPassword(), UserDetail.builder().name(user.getUserDetail().getName()).build());
+        var newUser = userService.registerUser(user.getEmail(), user.getPassword(), UserDetail.builder().
+                name(user.getUserDetail().getName())
+                .phoneNumber(user.getUserDetail().getPhoneNumber()).build());
         return new ResponseEntity<>(newUser, HttpStatus.OK);
     }
 

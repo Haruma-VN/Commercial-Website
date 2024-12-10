@@ -6,6 +6,10 @@ import StackedBarChart from './StackedBarChart';
 import Book from '../../model/Book';
 import Spinner from '../Spinner/Spinner';
 import { getCookie } from 'typescript-cookie';
+import Revenue from '../../model/Revenue';
+import OrderStatus from '../../model/OrderStatus';
+import RevenueChart from './RevenueChart';
+import OrderStatusChart from './OrderStatusChart';
 
 const Dashboard: React.FC = () => {
 	const [userCount, setUserCount] = useState<number>(0);
@@ -17,8 +21,12 @@ const Dashboard: React.FC = () => {
 	const [isLoadAdmin, setIsLoadAdmin] = useState<boolean>(true);
 	const [isLoadCategory, setIsLoadCategory] = useState<boolean>(true);
 	const [isLoadBook, setIsLoadBook] = useState<boolean>(true);
+	const [isLoadRevenue, setIsLoadRevenue] = useState<boolean>(true);
+	const [isLoadOrderStatus, setIsLoadOrderStatus] = useState<boolean>(true);
 	const [page, setPage] = useState(0);
 	const [hasMoreBook, setHasMoreBook] = useState<boolean>(true);
+	const [revenueData, setRevenueData] = useState<Array<Revenue>>([]);
+	const [orderStatusData, setOrderStatusData] = useState<Array<OrderStatus>>([]);
 
 	useEffect(() => {
 		const fetchAdmin = async () => {
@@ -104,7 +112,58 @@ const Dashboard: React.FC = () => {
 			.finally(() => setIsLoadUser(false));
 	}, []);
 
-	if (isLoadAdmin || isLoadBook || isLoadCategory || isLoadUser) {
+	useEffect(() => {
+		const fetchRevenue = async () => {
+			const response = await fetch(
+				'http://localhost:3308/api/v1/statistics/revenue-by-date',
+				{
+					method: 'GET',
+					headers: {
+						Authorization: `Bearer ${getCookie('accessToken')}`,
+					},
+				},
+			);
+			if (!response.ok) {
+				throw new Error('Không thể lấy dữ liệu doanh thu');
+			}
+			return await response.json();
+		};
+		fetchRevenue()
+			.then((e) => setRevenueData(e))
+			.catch((e) => setError(e.message))
+			.finally(() => setIsLoadRevenue(false));
+	}, []);
+
+	useEffect(() => {
+		const fetchOrderStatus = async () => {
+			const response = await fetch(
+				'http://localhost:3308/api/v1/statistics/orders-by-status',
+				{
+					method: 'GET',
+					headers: {
+						Authorization: `Bearer ${getCookie('accessToken')}`,
+					},
+				},
+			);
+			if (!response.ok) {
+				throw new Error('Không thể lấy dữ liệu trạng thái đơn hàng');
+			}
+			return await response.json();
+		};
+		fetchOrderStatus()
+			.then((e) => setOrderStatusData(e))
+			.catch((e) => setError(e.message))
+			.finally(() => setIsLoadOrderStatus(false));
+	}, []);
+
+	if (
+		isLoadAdmin ||
+		isLoadBook ||
+		isLoadCategory ||
+		isLoadUser ||
+		isLoadRevenue ||
+		isLoadOrderStatus
+	) {
 		return <Spinner />;
 	}
 
@@ -176,6 +235,26 @@ const Dashboard: React.FC = () => {
 								name={books.map((e) => e.title)}
 								data={books.map((e) => [e.quantity, e.price])}
 							/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div className='row mb-4'>
+				<div className='col-md-12'>
+					<div className='card shadow-sm'>
+						<div className='card-body'>
+							<h5 className='card-title mb-4'>Doanh thu</h5>
+							<RevenueChart data={revenueData} />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div className='row'>
+				<div className='col-md-12'>
+					<div className='card shadow-sm'>
+						<div className='card-body'>
+							<h5 className='card-title mb-4'>Trạng thái đơn hàng</h5>
+							<OrderStatusChart data={orderStatusData} />
 						</div>
 					</div>
 				</div>

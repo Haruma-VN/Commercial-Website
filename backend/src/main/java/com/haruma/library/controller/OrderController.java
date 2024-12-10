@@ -7,7 +7,6 @@ import com.haruma.library.service.OrderService;
 import com.haruma.library.service.StatusService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +29,11 @@ public class OrderController {
         this.statusService = statusService;
     }
 
-    @PostMapping("/{userEmail}")
+    @PostMapping
     @Operation(summary = "Add a new order")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER')")
-    public ResponseEntity<?> addOrder(@PathVariable("userEmail") String userEmail,
-                                      @RequestBody OrderRequest order) {
-        var newOrder = orderService.addOrder(userEmail, Order.builder()
+    public ResponseEntity<?> addOrder(@RequestBody OrderRequest order) {
+        var newOrder = orderService.addOrder(order.getEmail(), Order.builder()
                         .quantity(order.getQuantity())
                         .address(Address.builder().addressName(order.getAddress().getAddressName()).build())
                 .build(), order.getBookId());

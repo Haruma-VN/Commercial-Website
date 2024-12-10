@@ -13,6 +13,8 @@ import AdminHomePage from './components/Admin/HomePage';
 import ReviewPage from './components/Review/ReviewPage';
 import CategoryPage from './components/Category/CategoryPage';
 import OrderPage from './components/Order/OrderPage';
+import PaymentPage from './components/Payment/PaymentPage';
+import PaymentSuccess from './components/Payment/PaymentSuccess';
 
 function App() {
 	return (
@@ -27,6 +29,8 @@ function App() {
 						<Route path='/login' element={<LoginPage />} />
 						<Route path='/cart' element={<CartPage />} />
 						<Route path='/order' element={<OrderPage />} />
+						<Route path='/payment/:id' element={<PaymentPage />} />
+						<Route path='/payment/:id/success' element={<PaymentSuccess />} />
 						<Route path='/register' element={<RegisterPage />} />
 						<Route path='/checkout/:id' element={<BookCheckoutPage />} />
 						<Route path='/review/:id' element={<ReviewPage />} />

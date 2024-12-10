@@ -6,6 +6,7 @@ import User from '../../model/User';
 const RegisterPage = () => {
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
+	const [phoneNumber, setPhoneNumber] = useState<string>('');
 	const [name, setName] = useState<string>('');
 	const [error, setError] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -26,6 +27,7 @@ const RegisterPage = () => {
 					password,
 					userDetail: {
 						name,
+						phoneNumber,
 					},
 				} as User),
 			});
@@ -73,6 +75,21 @@ const RegisterPage = () => {
 										name='name'
 										value={name}
 										onChange={(e) => setName(e.target.value)}
+										required
+									/>
+								</div>
+
+								<div className='mb-3'>
+									<label htmlFor='name' className='form-label'>
+										Số điện thoại
+									</label>
+									<input
+										type='text'
+										className='form-control'
+										id='phoneNumber'
+										name='phoneNumber'
+										value={phoneNumber}
+										onChange={(e) => setPhoneNumber(e.target.value)}
 										required
 									/>
 								</div>

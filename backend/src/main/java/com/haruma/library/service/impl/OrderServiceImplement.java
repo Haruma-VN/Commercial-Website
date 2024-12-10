@@ -1,8 +1,6 @@
 package com.haruma.library.service.impl;
 
-import com.haruma.library.dto.response.BookFastResponse;
-import com.haruma.library.dto.response.OrderResponse;
-import com.haruma.library.dto.response.StatusResponse;
+import com.haruma.library.dto.response.*;
 import com.haruma.library.entity.Order;
 import com.haruma.library.entity.Status;
 import com.haruma.library.repository.*;
@@ -14,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional
@@ -78,6 +78,7 @@ public class OrderServiceImplement implements OrderService {
         if (order.isEmpty()) {
             throw new RuntimeException("Không có đơn hàng để xóa");
         }
+        order.get().getBook().setQuantity(order.get().getBook().getQuantity() + order.get().getQuantity());
         this.orderRepository.delete(order.get());
         return order.get();
     }
@@ -142,5 +143,31 @@ public class OrderServiceImplement implements OrderService {
         var pageable = PageRequest.of(page, limit);
         return this.orderRepository.findAll(pageable);
     }
+
+    @Override
+    public List<OrderStatusStatistic> getOrdersByStatus() {
+        var results = orderRepository.countOrdersByStatus();
+        var destination = new ArrayList<OrderStatusStatistic>();
+        for (var result : results) {
+            String statusName = (String) result[0];
+            Long count = (Long) result[1];
+            destination.add(OrderStatusStatistic.builder().statusName(statusName)
+                    .orderCount(count).build());
+        }
+        return destination;
+    }
+
+    @Override
+    public List<RevenueByDate> getRevenueByDate() {
+        var results = orderRepository.calculateRevenueByDate();
+        var destination = new ArrayList<RevenueByDate>();
+        for (Object[] result : results) {
+            Date orderDate = (Date) result[0];
+            BigDecimal totalPrice = (BigDecimal) result[1];
+            destination.add(new RevenueByDate(orderDate, totalPrice));
+        }
+        return destination;
+    }
+
 
 }

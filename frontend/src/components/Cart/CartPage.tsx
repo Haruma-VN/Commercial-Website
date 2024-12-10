@@ -5,12 +5,15 @@ import Spinner from '../Spinner/Spinner';
 import Exception from '../Exception/Exception';
 import { Link, useNavigate } from 'react-router-dom';
 import { getCookie } from 'typescript-cookie';
+import Toast from '../Toast/Toast';
 
 const CartPage = () => {
 	const { user } = useContext(UserContext)!;
 	const [books, setBook] = useState<Array<Book>>();
 	const [isLoading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
+	const [snackbar, setSnackbar] = useState<[string, 'danger' | 'info' | 'success']>(['', 'info']);
+	const [toggleSnackbar, setToggleBehavior] = useState<boolean>(false);
 	const navigate = useNavigate();
 	useEffect(() => {
 		if (user === null) return;
@@ -26,7 +29,6 @@ const CartPage = () => {
 				throw new Error('Có lỗi xảy ra khi lấy danh sách giỏ hàng');
 			}
 			const data = await response.json();
-			console.log(data);
 			setBook(data as Array<Book>);
 		};
 		fetchBooks()
@@ -51,6 +53,8 @@ const CartPage = () => {
 			}
 			await response.json();
 			setBook(books?.filter((e) => e.id !== id));
+			setSnackbar(['Xóa sản phẩm thành công', 'success']);
+			setToggleBehavior(true);
 		};
 		deleteBook()
 			.catch((e) => setError(e))
@@ -68,6 +72,12 @@ const CartPage = () => {
 	}
 	return (
 		<div className='container mt-5'>
+			<Toast
+				onClose={() => setToggleBehavior(false)}
+				isVisible={toggleSnackbar}
+				message={snackbar[0]}
+				bgColor={snackbar[1]}
+			/>
 			<h2 className='text-center mb-4'>Giỏ hàng của bạn</h2>
 			<div className='custom-cart d-flex flex-column'>
 				{books!.length > 0 ? (

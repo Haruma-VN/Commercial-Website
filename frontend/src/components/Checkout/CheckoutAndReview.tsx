@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Book from '../../model/Book';
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
@@ -16,6 +16,7 @@ const CheckoutAndReview: React.FC<{ isMobile: boolean; book?: Book; showToast: (
 	const [isLoading, setLoading] = useState<boolean>(user !== null);
 	const [error, setError] = useState<string | null>(null);
 	const [alreadyInCart, setAlreadyInCart] = useState<boolean>(false);
+	const navigate = useNavigate();
 	useEffect(() => {
 		if (user === null) return;
 		const checkUrl: string = `http://localhost:3308/api/v1/cart/include`;
@@ -80,9 +81,18 @@ const CheckoutAndReview: React.FC<{ isMobile: boolean; book?: Book; showToast: (
 		);
 	};
 
-	const purchaseBtn = () => {
+	const onPurchase = async (bookId: number) => {
+		if (user === null) return;
+		navigate(`/payment/${bookId}`);
+	};
+
+	const purchaseBtn = (bookId: number) => {
 		return (
-			<button onClick={onAddBookToCart} type='button' className='btn btn-primary btn-lg'>
+			<button
+				onClick={() => onPurchase(bookId)}
+				type='button'
+				className='btn btn-primary btn-lg'
+			>
 				Mua hàng
 			</button>
 		);
@@ -121,7 +131,7 @@ const CheckoutAndReview: React.FC<{ isMobile: boolean; book?: Book; showToast: (
 						</Link>
 					) : (
 						<>
-							{purchaseBtn()}
+							{purchaseBtn(book!.id!)}
 							{addToCartBtn()}
 						</>
 					)}

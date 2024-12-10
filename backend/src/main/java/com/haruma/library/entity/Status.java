@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name="status")
 @Getter
@@ -22,9 +25,10 @@ public class Status {
     @Column(name="status_name", length = 100)
     private String statusName;
 
-    @OneToOne(mappedBy = "status")
+    @OneToMany(mappedBy = "status", cascade = CascadeType.ALL)
     @JsonIgnore
-    private Order order;
+    private List<Order> orders = new ArrayList<>();
+
 
 
 }
