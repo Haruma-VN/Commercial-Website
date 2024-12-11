@@ -1,0 +1,11 @@
+.nav-item .my-tab {
+	width: 100%;
+	padding: 10px 0;
+	font-size: 16px;
+	color: black;
+	text-decoration: none;
+}
+
+.nav-item .my-tab:active {
+	color: white;
+}

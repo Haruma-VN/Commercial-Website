@@ -6,6 +6,7 @@ import ManageCategory from './ManageCategory';
 import Dashboard from './Dashboard';
 import './HomePage.css';
 import Exception from '../Exception/Exception';
+import ManageOrder from './ManageOrder';
 
 const AdminHomePage = () => {
 	const { user } = useContext(UserContext)!;
@@ -27,6 +28,8 @@ const AdminHomePage = () => {
 				return <ManageBook />;
 			case 'category':
 				return <ManageCategory />;
+			case 'order':
+				return <ManageOrder />;
 			default:
 				return <Dashboard />;
 		}
@@ -35,9 +38,10 @@ const AdminHomePage = () => {
 	const exchanger = (section: string): string => {
 		const data = {
 			dashboard: 'Trang chủ',
-			book: 'Quản lý Sách',
-			category: 'Quản lý Danh mục',
-			user: 'Quản lý Người dùng',
+			book: 'Sách',
+			category: 'Danh mục',
+			user: 'Người dùng',
+			order: 'Đơn hàng',
 		} as Record<string, string>;
 		return data[section];
 	};
@@ -62,7 +66,7 @@ const AdminHomePage = () => {
 					</button>
 					<div className='collapse navbar-collapse' id='navbarContent'>
 						<ul className='navbar-nav me-auto mb-2 mb-lg-0'>
-							{['dashboard', 'user', 'book', 'category'].map((section) => (
+							{['dashboard', 'user', 'book', 'category', 'order'].map((section) => (
 								<li className='nav-item' key={section}>
 									<a
 										className='nav-link custom-nav-link'
@@ -85,7 +89,7 @@ const AdminHomePage = () => {
 				>
 					<h3 className='p-3'>Admin Panel</h3>
 					<ul className='list-group list-group-flush'>
-						{['dashboard', 'user', 'book', 'category'].map((section) => (
+						{['dashboard', 'user', 'book', 'category', 'order'].map((section) => (
 							<li className={`list-group-item custom-list-group-item`} key={section}>
 								<a
 									className={`nav-link custom-nav-link`}

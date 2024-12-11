@@ -28,7 +28,7 @@ public class StatisticsController {
 
     @GetMapping("/orders-by-status")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @Operation(description = "Get order by status")
+    @Operation(summary = "Get order by status")
     public ResponseEntity<List<OrderStatusStatistic>> getOrdersByStatus() {
         var statistics = orderService.getOrdersByStatus();
         return ResponseEntity.ok(statistics);
@@ -36,7 +36,7 @@ public class StatisticsController {
 
     @GetMapping("/revenue-by-date")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @Operation(description = "Get revenue by date")
+    @Operation(summary = "Get revenue by date")
     public ResponseEntity<List<RevenueByDate>> getRevenueByDate() {
         var statistics = orderService.getRevenueByDate();
         return ResponseEntity.ok(statistics);

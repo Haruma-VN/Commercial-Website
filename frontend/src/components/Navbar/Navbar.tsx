@@ -147,12 +147,15 @@ const Navbar = () => {
 							{user ? (
 								<button
 									onClick={onLogout}
-									className='btn btn-outline-light logout-btn'
+									className='btn btn-outline-light logout-btn p-2'
 								>
 									Đăng xuất
 								</button>
 							) : (
-								<Link to='/login' className='btn btn-outline-light register-btn'>
+								<Link
+									to='/login'
+									className='btn btn-outline-light register-btn p-2'
+								>
 									Đăng nhập
 								</Link>
 							)}
