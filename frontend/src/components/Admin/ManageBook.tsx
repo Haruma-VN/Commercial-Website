@@ -8,6 +8,7 @@ import { changeDataStyle, deleteDataStyle } from './ModalConfiguration';
 import { encodeFileToBase64 } from '../../utility/Encoder';
 import ExcelExport from './ExcelExport';
 import './Manage.css';
+import { getCookie } from 'typescript-cookie';
 
 const ManageBook = () => {
 	const [books, setBooks] = useState<Array<Book>>([]);
@@ -63,7 +64,10 @@ const ManageBook = () => {
 		const fetchBooks = async () => {
 			const response = await fetch('http://localhost:3308/api/v1/book', {
 				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${getCookie('accessToken')}`,
+				},
 				body: JSON.stringify(book),
 			});
 			if (!response.ok) {
@@ -91,7 +95,10 @@ const ManageBook = () => {
 		const fetchBooks = async () => {
 			const response = await fetch('http://localhost:3308/api/v1/book', {
 				method: 'PUT',
-				headers: { 'Content-Type': 'application/json' },
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${getCookie('accessToken')}`,
+				},
 				body: JSON.stringify(book),
 			});
 			if (!response.ok) {
@@ -119,6 +126,9 @@ const ManageBook = () => {
 		const fetchBooks = async () => {
 			const response = await fetch(`http://localhost:3308/api/v1/book/${book.id}`, {
 				method: 'DELETE',
+				headers: {
+					Authorization: `Bearer ${getCookie('accessToken')}`,
+				},
 			});
 			if (!response.ok) {
 				throw new Error('Có lỗi xảy ra khi xoá sách');
