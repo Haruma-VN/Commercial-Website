@@ -5,6 +5,7 @@ import Spinner from '../Spinner/Spinner';
 import Exception from '../Exception/Exception';
 import { getCookie } from 'typescript-cookie';
 import Statistic from '../../model/Statistic';
+import ExcelExport from './ExcelExport';
 
 const Statistics = () => {
 	const [startDate, setStartDate] = useState<Date | null>(new Date());
@@ -89,6 +90,7 @@ const Statistics = () => {
 					<button onClick={handleGenerateStatistics} className='btn btn-primary mt-4'>
 						Xem thống kê
 					</button>
+					<ExcelExport jsonData={statistics} fileName='ThongKe' sheetName='Sheet 1' />
 				</div>
 			</div>
 
