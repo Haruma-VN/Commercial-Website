@@ -7,6 +7,7 @@ import Dashboard from './Dashboard';
 import './HomePage.css';
 import Exception from '../Exception/Exception';
 import ManageOrder from './ManageOrder';
+import Statistics from './Statistics';
 
 const AdminHomePage = () => {
 	const { user } = useContext(UserContext)!;
@@ -24,6 +25,8 @@ const AdminHomePage = () => {
 		switch (selectedSection) {
 			case 'user':
 				return <ManageUser />;
+			case 'statistics':
+				return <Statistics />;
 			case 'book':
 				return <ManageBook />;
 			case 'category':
@@ -38,6 +41,7 @@ const AdminHomePage = () => {
 	const exchanger = (section: string): string => {
 		const data = {
 			dashboard: 'Trang chủ',
+			statistics: 'Thống kê',
 			book: 'Sách',
 			category: 'Danh mục',
 			user: 'Người dùng',
@@ -66,17 +70,19 @@ const AdminHomePage = () => {
 					</button>
 					<div className='collapse navbar-collapse' id='navbarContent'>
 						<ul className='navbar-nav me-auto mb-2 mb-lg-0'>
-							{['dashboard', 'user', 'book', 'category', 'order'].map((section) => (
-								<li className='nav-item' key={section}>
-									<a
-										className='nav-link custom-nav-link'
-										href='#'
-										onClick={() => setSelectedSection(section)}
-									>
-										{exchanger(section)}
-									</a>
-								</li>
-							))}
+							{['dashboard', 'statistics', 'user', 'book', 'category', 'order'].map(
+								(section) => (
+									<li className='nav-item' key={section}>
+										<a
+											className='nav-link custom-nav-link'
+											href='#'
+											onClick={() => setSelectedSection(section)}
+										>
+											{exchanger(section)}
+										</a>
+									</li>
+								),
+							)}
 						</ul>
 					</div>
 				</div>
@@ -89,17 +95,22 @@ const AdminHomePage = () => {
 				>
 					<h3 className='p-3'>Admin Panel</h3>
 					<ul className='list-group list-group-flush'>
-						{['dashboard', 'user', 'book', 'category', 'order'].map((section) => (
-							<li className={`list-group-item custom-list-group-item`} key={section}>
-								<a
-									className={`nav-link custom-nav-link`}
-									href='#'
-									onClick={() => setSelectedSection(section)}
+						{['dashboard', 'statistics', 'user', 'book', 'category', 'order'].map(
+							(section) => (
+								<li
+									className={`list-group-item custom-list-group-item`}
+									key={section}
 								>
-									{exchanger(section)}
-								</a>
-							</li>
-						))}
+									<a
+										className={`nav-link custom-nav-link`}
+										href='#'
+										onClick={() => setSelectedSection(section)}
+									>
+										{exchanger(section)}
+									</a>
+								</li>
+							),
+						)}
 					</ul>
 				</div>
 				<div className='container-fluid p-4 custom-container'>{renderContent()}</div>

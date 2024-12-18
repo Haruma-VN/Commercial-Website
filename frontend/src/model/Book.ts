@@ -5,6 +5,7 @@ class Book {
 	public description: string;
 	public price: number;
 	public quantity: number;
+	public categoryId: number;
 	/**
 	 * image use base64
 	 */
@@ -18,6 +19,7 @@ class Book {
 		quantity: number,
 		price: number,
 		image: string,
+		categoryId: number,
 	) {
 		this.id = id;
 		this.title = title;
@@ -26,6 +28,7 @@ class Book {
 		this.quantity = quantity;
 		this.price = price;
 		this.image = image;
+		this.categoryId = categoryId;
 	}
 }
 

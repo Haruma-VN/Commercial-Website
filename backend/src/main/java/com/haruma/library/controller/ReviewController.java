@@ -52,7 +52,7 @@ public class ReviewController {
     @Operation(summary = "Add a review to database")
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
     public ResponseEntity<Review> addReview(@RequestBody Review review, @PathVariable("bookId") Long bookId) {
-        var book = bookService.findBookById(bookId);
+        var book = bookService.findBookByBookId(bookId);
         return book.map(e -> {
             review.setBook(e);
             reviewService.addReview(review);

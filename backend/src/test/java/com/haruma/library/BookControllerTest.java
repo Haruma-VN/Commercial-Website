@@ -1,6 +1,8 @@
 package com.haruma.library;
 
 import com.haruma.library.controller.BookController;
+import com.haruma.library.dto.request.BookRequest;
+import com.haruma.library.dto.response.BookResponse;
 import com.haruma.library.entity.Book;
 import com.haruma.library.service.BookService;
 import org.junit.jupiter.api.Test;
@@ -41,7 +43,7 @@ class BookControllerTest {
         book.setId(1L);
         book.setTitle("Test Book");
 
-        Mockito.when(bookService.findBookById(1L)).thenReturn(Optional.of(book));
+        Mockito.when(bookService.findBookByBookId(1L)).thenReturn(Optional.of(book));
 
         mockMvc.perform(get("/api/v1/book/1"))
                 .andExpect(status().isOk())
@@ -51,23 +53,23 @@ class BookControllerTest {
 
     @Test
     void testAddBook() throws Exception {
-        Mockito.doNothing().when(bookService).addBook(any(Book.class));
+        Mockito.doNothing().when(bookService).addBook(any(BookRequest.class));
 
         mockMvc.perform(post("/api/v1/book")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"title\": \"New Book\"}"))
                 .andExpect(status().isOk());
 
-        Mockito.verify(bookService).addBook(any(Book.class));
+        Mockito.verify(bookService).addBook(any(BookRequest.class));
     }
 
     @Test
     void testUpdateBook() throws Exception {
-        Book book = new Book();
+        BookRequest book = new BookRequest();
         book.setId(1L);
         book.setTitle("Updated Book");
 
-        Mockito.when(bookService.updateBook(any(Book.class))).thenReturn(Optional.of(book));
+        Mockito.when(bookService.updateBook(any(BookRequest.class))).thenReturn(Optional.of(buildBookResponse(book)));
 
         mockMvc.perform(put("/api/v1/book")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -76,13 +78,26 @@ class BookControllerTest {
                 .andExpect(jsonPath("$.title").value("Updated Book"));
     }
 
+    private BookResponse buildBookResponse(BookRequest bookRequest) {
+        return BookResponse.builder()
+                .price(bookRequest.getPrice())
+                .title(bookRequest.getTitle())
+                .image(bookRequest.getImage())
+                .quantity(bookRequest.getQuantity())
+                .id(bookRequest.getId())
+                .author(bookRequest.getAuthor())
+                .categoryId(bookRequest.getCategoryId())
+                .description(bookRequest.getDescription())
+                .build();
+    }
+
     @Test
     void testDeleteBook() throws Exception {
-        Book book = new Book();
+        BookRequest book = new BookRequest();
         book.setId(1L);
         book.setTitle("Book to delete");
 
-        Mockito.when(bookService.deleteBookById(1L)).thenReturn(Optional.of(book));
+        Mockito.when(bookService.deleteBookById(1L)).thenReturn(Optional.of(buildBookResponse(book)));
 
         mockMvc.perform(delete("/api/v1/book/1"))
                 .andExpect(status().isOk());

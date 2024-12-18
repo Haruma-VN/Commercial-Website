@@ -9,6 +9,7 @@ import { encodeFileToBase64 } from '../../utility/Encoder';
 import ExcelExport from './ExcelExport';
 import './Manage.css';
 import { getCookie } from 'typescript-cookie';
+import Category from '../../model/Category';
 
 const ManageBook = () => {
 	const [books, setBooks] = useState<Array<Book>>([]);
@@ -20,9 +21,10 @@ const ManageBook = () => {
 	const [currentBook, setCurrentBook] = useState<Book | null>(null);
 	const [selectedImage, setSelectedImage] = useState<File | null>(null);
 	const [style, setStyle] = useState<Modal.Styles | undefined>();
-	const [currentPage, setCurrentPage] = useState<number>(1);
+	const [currentPage, setCurrentPage] = useState<number>(0);
 	const [booksPerPage] = useState<number>(5);
 	const [totalBooks, setTotalBooks] = useState<number>(0);
+	const [categories, setCategories] = useState<Array<Category>>([]);
 
 	const showToast = () => {
 		setToggleBehavior(true);
@@ -30,6 +32,19 @@ const ManageBook = () => {
 			setToggleBehavior(false);
 		}, 3000);
 	};
+
+	useEffect(() => {
+		const fetchCategories = async () => {
+			const response = await fetch('http://localhost:3308/api/v1/category');
+			if (!response.ok) {
+				throw new Error('Không thể lấy danh mục');
+			}
+			setCategories(await response.json());
+		};
+		fetchCategories()
+			.catch((e) => setError(e.message))
+			.finally(() => setLoading(false));
+	}, []);
 
 	useEffect(() => {
 		const fetchBooks = async () => {
@@ -147,6 +162,13 @@ const ManageBook = () => {
 			});
 	};
 
+	const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		setCurrentBook({
+			...currentBook!,
+			categoryId: Number(e.target.value),
+		});
+	};
+
 	const onChange = (book: Book | null) => {
 		setCurrentBook(book);
 		setStyle(changeDataStyle);
@@ -221,8 +243,8 @@ const ManageBook = () => {
 						<th>Tiêu đề</th>
 						<th>Tác giả</th>
 						<th>Mô tả</th>
-						<th>Tổng</th>
-						<th>Còn</th>
+						<th>Số lượng</th>
+						<th>Giá tiền</th>
 						<th></th>
 						<th></th>
 					</tr>
@@ -256,6 +278,48 @@ const ManageBook = () => {
 										value={currentBook?.author}
 									/>
 								</div>
+								<div className='mb-3'>
+									<label className='form-label'>Danh mục</label>
+									<select
+										className='form-control'
+										value={currentBook?.categoryId || ''}
+										onChange={handleCategoryChange}
+									>
+										<option value='' disabled>
+											Chọn danh mục
+										</option>
+										{categories.map((category) => (
+											<option key={category.id} value={category.id}>
+												{category.name}
+											</option>
+										))}
+									</select>
+								</div>
+								<div className='mb-3'>
+									<label className='form-label'>Số lượng</label>
+									<input
+										type='number'
+										className='form-control'
+										name='quantity'
+										onChange={handleInputChange}
+										value={currentBook?.quantity}
+										min={0}
+										step={1}
+									/>
+								</div>
+								<div className='mb-3'>
+									<label className='form-label'>Giá tiền</label>
+									<input
+										type='number'
+										className='form-control'
+										name='price'
+										onChange={handleInputChange}
+										value={currentBook?.price}
+										min={0}
+										step={0.01}
+									/>
+								</div>
+
 								<div className='mb-3'>
 									<label className='form-label'>Mô tả</label>
 									<textarea
@@ -324,7 +388,7 @@ const ManageBook = () => {
 							<td>{book.author}</td>
 							<td>{book.description}</td>
 							<td>{book.quantity}</td>
-							<td>{book.price}</td>
+							<td>{book.price.toFixed(3)} VND</td>
 							<td>
 								<button className='btn btn-info' onClick={() => onChange(book)}>
 									Sửa
@@ -343,21 +407,20 @@ const ManageBook = () => {
 			<div className='pagination'>
 				<button
 					className='btn btn-primary'
-					onClick={() => setCurrentPage(currentPage > 1 ? currentPage - 1 : 1)}
-					disabled={currentPage === 1}
+					onClick={() => setCurrentPage(currentPage > 1 ? currentPage - 1 : 0)}
+					disabled={currentPage === 0}
 				>
 					Quay lại
 				</button>
-				<span
-					className='mt-2 mb-2'
-					style={{ marginLeft: 10, marginRight: 10 }}
-				>{`Trang ${currentPage} trên ${totalPages}`}</span>
+				<span className='mt-2 mb-2' style={{ marginLeft: 10, marginRight: 10 }}>{`Trang ${
+					currentPage + 1
+				} trên ${totalPages}`}</span>
 				<button
 					className='btn btn-primary'
 					onClick={() =>
 						setCurrentPage(currentPage < totalPages ? currentPage + 1 : totalPages)
 					}
-					disabled={currentPage === totalPages}
+					disabled={currentPage + 1 === totalPages}
 				>
 					Trang kế
 				</button>

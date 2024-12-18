@@ -102,7 +102,7 @@ const OrderApprove = () => {
 						<tr key={order.orderId}>
 							<td>{order.orderId}</td>
 							<td>{new Date(order.orderDate).toLocaleDateString()}</td>
-							<td>{order.totalPrice.toLocaleString()} VND</td>
+							<td>{order.totalPrice.toFixed(3)} VND</td>
 							<td>
 								<button
 									className='btn btn-primary me-2'

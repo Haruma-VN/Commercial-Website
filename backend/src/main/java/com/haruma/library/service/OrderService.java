@@ -1,8 +1,10 @@
 package com.haruma.library.service;
 
+import com.haruma.library.dto.request.StatisticsRequest;
 import com.haruma.library.dto.response.OrderResponse;
 import com.haruma.library.dto.response.OrderStatusStatistic;
 import com.haruma.library.dto.response.RevenueByDate;
+import com.haruma.library.dto.response.StatisticsResponse;
 import com.haruma.library.entity.Order;
 import com.haruma.library.entity.Status;
 import org.springframework.data.domain.Page;
@@ -30,4 +32,6 @@ public interface OrderService {
     List<OrderStatusStatistic> getOrdersByStatus();
 
     List<RevenueByDate> getRevenueByDate();
+
+    List<StatisticsResponse> getStatistics(StatisticsRequest request);
 }

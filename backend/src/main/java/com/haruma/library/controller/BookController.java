@@ -1,5 +1,6 @@
 package com.haruma.library.controller;
 
+import com.haruma.library.dto.request.BookRequest;
 import com.haruma.library.entity.Book;
 import com.haruma.library.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -59,7 +60,7 @@ public class BookController {
     @PostMapping
     @Operation(summary = "Add a book to database")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> addBook(@RequestBody Book book) {
+    public ResponseEntity<?> addBook(@RequestBody BookRequest book) {
         bookService.addBook(book);
         return new ResponseEntity<>(book, HttpStatus.OK);
     }
@@ -67,7 +68,7 @@ public class BookController {
     @PutMapping
     @Operation(summary = "Update a book to database")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> updateBook(@RequestBody Book book) {
+    public ResponseEntity<?> updateBook(@RequestBody BookRequest book) {
         var data = bookService.updateBook(book);
         return data.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }

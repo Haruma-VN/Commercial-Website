@@ -1,5 +1,6 @@
 package com.haruma.library.service.impl;
 
+import com.haruma.library.dto.request.StatisticsRequest;
 import com.haruma.library.dto.response.*;
 import com.haruma.library.entity.Order;
 import com.haruma.library.entity.Status;
@@ -165,6 +166,20 @@ public class OrderServiceImplement implements OrderService {
             Date orderDate = (Date) result[0];
             BigDecimal totalPrice = (BigDecimal) result[1];
             destination.add(new RevenueByDate(orderDate, totalPrice));
+        }
+        return destination;
+    }
+
+    @Override
+    public List<StatisticsResponse> getStatistics(StatisticsRequest request) {
+        var results = orderRepository.getStatistics(request.getStartDate().toString(), request.getEndDate().toString());
+        var destination = new ArrayList<StatisticsResponse>();
+        for (Object[] result : results) {
+            Date orderDate = (Date) result[0];
+            BigDecimal totalPrice = (BigDecimal) result[1];
+            BigDecimal quantity = (BigDecimal) result[2];
+            destination.add(StatisticsResponse.builder().count(quantity)
+                    .date(orderDate).totalPrice(totalPrice).build());
         }
         return destination;
     }

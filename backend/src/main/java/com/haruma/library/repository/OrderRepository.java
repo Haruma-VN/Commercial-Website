@@ -30,6 +30,15 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "ORDER BY DATE(order_date)", nativeQuery = true)
     List<Object[]> calculateRevenueByDate();
 
+    @Query(value = "SELECT DATE(order_date) AS orderDate, " +
+            "SUM(total_price) AS totalPrice, " +
+            "SUM(quantity) AS totalQuantity " +
+            "FROM `order` " +
+            "WHERE order_date BETWEEN :startTime AND :endTime " +
+            "GROUP BY DATE(order_date) " +
+            "ORDER BY DATE(order_date)", nativeQuery = true)
+    List<Object[]> getStatistics(@Param("startTime") String startTime, @Param("endTime") String endTime);
+
 
 
 }
