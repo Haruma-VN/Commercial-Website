@@ -1,0 +1,13 @@
+.statistics-button {
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	transition: background-color 0.3s, transform 0.2s;
+	font-weight: bold;
+	margin-right: 10px;
+}
+
+.statistics-button:hover {
+	transform: scale(1.05);
+}

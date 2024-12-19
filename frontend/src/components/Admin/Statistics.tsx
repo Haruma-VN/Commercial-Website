@@ -6,6 +6,7 @@ import Exception from '../Exception/Exception';
 import { getCookie } from 'typescript-cookie';
 import Statistic from '../../model/Statistic';
 import ExcelExport from './ExcelExport';
+import './Statistics.css';
 
 const Statistics = () => {
 	const [startDate, setStartDate] = useState<Date | null>(new Date());
@@ -87,7 +88,10 @@ const Statistics = () => {
 				</div>
 
 				<div>
-					<button onClick={handleGenerateStatistics} className='btn btn-primary mt-4'>
+					<button
+						onClick={handleGenerateStatistics}
+						className='btn btn-primary statistics-button'
+					>
 						Xem thống kê
 					</button>
 					<ExcelExport jsonData={statistics} fileName='ThongKe' sheetName='Sheet 1' />
